@@ -26,6 +26,7 @@ class StudentDao {
 		return $rs;
 	}
 	public function insert($st){
+		echo "insert student";
 		$sql = $this->db->readTextFile("dao/StudentDao_insert.sql");
 		return $this->db->insertAndGetLastId($sql, $st);
 	}

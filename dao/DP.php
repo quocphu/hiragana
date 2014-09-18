@@ -18,6 +18,11 @@ class DP {
 		}
 		return self::$instant;
 	}
+	
+	public function getDB(){
+		print_r(isset($this->db));
+		return $this->db;
+	}
 	private function mapper($row, $instance) {
 		foreach ( $row as $property => $value ) {
 			$instance->$property = $value;
