@@ -104,7 +104,7 @@ class DP {
 				$sql=str_replace($val[0], $object->$prop, $sql);
 			}
 		}
-echo $sql;
+Plog::out($sql);
 		return $sql;
 	}
 	

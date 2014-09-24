@@ -4,7 +4,10 @@
 	    'dao/Pattern/',
 	    'dao/PatternColumn/',
 	    'dao/PatternDetail/',
-		'dto/'
+		'dto/',
+		'entities/',
+		'common/',
+		'services/'
 	);
 	function __autoload($class_name) {
 	    global $classesDir;
@@ -70,7 +73,7 @@
 	
 // 	$ptDao->update($pt);
 	
-	$ptColumnDao = new PatternColumnDao($db);
+// 	$ptColumnDao = new PatternColumnDao($db);
 // 	$ptColumn = new PatternColumn();
 // 	$ptColumn->header="v3";
 // 	$ptColumn->patternid=1;
@@ -79,21 +82,54 @@
 // 	$ptColumnDao->insert($ptColumn);
 	//$ptColumnList = $ptColumnDao->getAll();
 	//logger($ptColumnDao->getByPatternId(1));
-	$pdtDao = new PatternDetailDao($db);
-	$pdt = new PatternDetail();
+// 	$pdtDao = new PatternDetailDao($db);
+// 	$pdt = new PatternDetail();
 
-	$pdt->id=1;
-	$pdt->columnid = 1;
-	$pdt->patternid=10;
-	$pdt->priority=111;
-	$pdt->value="went update";
+// 	$pdt->id=1;
+// 	$pdt->columnid = 1;
+// 	$pdt->patternid=10;
+// 	$pdt->priority=111;
+// 	$pdt->value="went update";
 // 	$pdtDao->insert($pdt);
 // 	logger($pdtDao->getByPatternId(1));
-$pdtDao->update($pdt);
-	function logger($data){
-		echo "<pre>";
-		print_r($data);
-		echo "</pre>";
-		echo "end";
+// 	$pdtDao->update($pdt);
+
+	$patternSrv = new PatternService($db);
+	
+	$pt = $patternSrv->getById(39);
+	//PLog::out($pt);
+	
+	$ptDto = new PatternDto();
+	$ptEn = new Pattern();
+	$ptEn->accountid=1;
+	$ptEn->columnsize=2;
+	$ptEn->description="Test insert";
+	$ptEn->title="Test title";
+	
+	$ptDto->info = $ptEn;
+	
+	for($i=0; $i<2; $i++){
+		$column = new PatternColumn();
+		$column->header = "column ".$i;
+		$column->priority=$i;
+		$ptDto->header[]=$column;
 	}
+	for($i=0; $i<10; $i++){
+		$detail = new PatternDetail();
+		$detail->priority=$i;
+		$detail->value="value ".$i;
+		$ptDto->data[]=$detail;
+	}
+	$rs = Validator::regex("あいうえお",'/\w/');
+	if($rs){
+		echo "OK";
+	}else{
+		echo "FAIL";
+	}
+	//logger($ptDto);
+	
+//  $ptId =	$patternSrv->insert($ptDto);
+
+//  PLog::out("ID=".$ptId);
+	
 ?>

@@ -2,15 +2,11 @@ insert into pattern (
 		title,
 		description,
 		accountid,
-		columnsize,
-		votes,
-		status
+		columnsize
 	) values (
 		'#title#',
 		'#description#',
-		saccountid,
-		columnsize,
-		votes,
-		status
+		#accountid#,
+		#columnsize#
 	
 	);
