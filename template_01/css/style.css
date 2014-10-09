@@ -70,7 +70,7 @@ body {
 	line-height: 1em;
 	padding: 0.6em 0.75em;
 	text-decoration: none;
-	font-size: 1.5em;
+	font-size: 1.2em;
 }
 
 #pull {
@@ -246,11 +246,29 @@ body {
 	background: pink;
 }
 
-.row-edit {
-	display: block;
-	width: 30px;
-	position: relative;
-	background: pink;
-	top: -20px;
-	right: 100px;
+
+.footer {
+	background: #FFCCDD;
+	height: 60px;
+	text-align: center;
+}
+.footer .nav {
+	with:100%;
+}
+.footer .nav li {
+	float: left;
+}
+
+.footer .nav li a {
+	border: solid 1px transparent;
+	color: inherit;
+	display: inline-block;
+	line-height: 1em;
+	padding: 0.6em 0.75em;
+	text-decoration: none;
+	font-size: 1em;
+}
+
+.footer .copyright li {
+	float: left;
 }

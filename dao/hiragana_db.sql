@@ -5,6 +5,10 @@
 	accountid integer,
 	columnsize integer,
 	votes integer default 0,
+	likes integer default 0,
+	create_date timestamp,
+	update_date timestamp,
+	tag character varying(500)
 	status integer
 );
 
@@ -23,10 +27,9 @@ create table pattern_detail (
 	value character varying(300)
 );
 
-select * from pattern_detail;
-select * from pattern_column where pattern_id=1
-
-select * from pattern_detail
-
-where pattern_id=1
-order by id
+create table account (
+	id serial primary key,
+	uid character varying (100),
+	pwd character varying(500),
+	
+);
