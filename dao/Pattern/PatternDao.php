@@ -1,4 +1,5 @@
 <?php
+require_once 'dao/BaseDao.php';
 class PatternDao extends BaseDao {
 	public function __construct($db){
 		parent::__construct($db);
@@ -44,6 +45,30 @@ class PatternDao extends BaseDao {
 	public  function update($pattern){
 		$sql = $this->getSql(__FUNCTION__);
 		return $this->db->update($sql, $pattern);
+	}
+	
+	/**
+	 * Count search result
+	 * @param String $title
+	 * @return number
+	 */
+	public function searchCount($title){
+		$sql = $this->getSql(__FUNCTION__);
+		$rs = $this->db->selectScalar($sql, array("title"=>$title));
+		return $rs;
+	}
+	
+	/**
+	 * Search by title and tab
+	 * @param String $title Search data
+	 * @param Number $limit
+	 * @param Number $offset
+	 * @return Array PatternSearchEntity
+	 */
+	public function search($title, $limit, $offset, $orderby, $order="asc"){
+		$sql = $this->getSql(__FUNCTION__);
+		$rs = $this->db->selectObject($sql, "PatternSearchEntity", array("title"=>$title, "limit"=>$limit, "offset"=>$offset, "orderby"=>$orderby, "order"=>$order));
+		return $rs;
 	}
 }
 ?>

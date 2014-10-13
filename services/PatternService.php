@@ -1,4 +1,6 @@
 <?php
+
+
 class PatternService {
 	private $patternDao;
 	private $patternDetailDao;
@@ -12,7 +14,12 @@ class PatternService {
 		$this->studentDao = new StudentDao ( $dp );
 		$this->dp = $dp;
 	}
-	
+	/**
+	 * Get pattern by Id
+	 * @param string $id
+	 * @param bool $detail
+	 * @return PatternDto
+	 */
 	public function getById($id, $detail = false){
 		$result = new PatternDto();
 		
@@ -28,6 +35,11 @@ class PatternService {
 
 		return $result;
 	}
+	/**
+	 * Insert pattern
+	 * @param PatternDto $pattern
+	 * @return number
+	 */
 	public function insert($pattern){
 		$patternId = -1;
 		try {
@@ -57,6 +69,31 @@ class PatternService {
 			echo $ex->getMessage ();
 		}
 		return $patternId;
+	}
+	
+	/**
+	 * Search by title or tab
+	 * @param String $title Data search
+	 * @param Number $limit Number of result
+	 * @param Number $offset 
+	 * @return multitype: all->count all row(no limit), data->current data(limit)
+	 */
+	public function search($title, $limit, $offset){
+		$count =  $this->patternDao->searchCount($title);
+		$data = $this->patternDao->search($title, $limit, $offset, "id");
+		return ["all"=>$count, "data"=>$data];
+	}
+	
+	/**
+	 * Search by title or tab
+	 * @param String $title Data search
+	 * @param Number $limit Number of result
+	 * @param Number $offset
+	 * @return multitype: all->count all row(no limit), data->current data(limit)
+	 */
+	public function searchNew($title){
+		$data = $this->patternDao->search($title, 10, 0, "create_date", "desc");
+		return $data;
 	}
 }
 ?>

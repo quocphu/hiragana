@@ -1,19 +1,16 @@
-		<!-- Footer -->
-			<footer id="footer">
-			
-				<ul class="icons">
-					<li><a href="#" class="icon circle fa-twitter"><span class="label">Twitter</span></a></li>
-					<li><a href="#" class="icon circle fa-facebook"><span class="label">Facebook</span></a></li>
-					<li><a href="#" class="icon circle fa-google-plus"><span class="label">Google+</span></a></li>
-					<li><a href="#" class="icon circle fa-github"><span class="label">Github</span></a></li>
-					<li><a href="#" class="icon circle fa-dribbble"><span class="label">Dribbble</span></a></li>
-				</ul>
-				
-				<ul class="copyright">
-					<li>&copy; Untitled</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-				</ul>
-			
-			</footer>
+	<div class="footer">
 
-	</body>
+		<ul class="nav">
+			<li><a href="#">Home</a></li>
+			<li><a href="#">About us</a></li>
+			<li><a href="#">Contact</a></li>
+		</ul>
+	<div class="clear"></div>
+		<ul class="copyright">
+			<li>Copyright &copy; 2014</li>
+			<li>Design: <a href="#">abc</a></li>
+		</ul>
+
+	</div>
+</body>
 </html>

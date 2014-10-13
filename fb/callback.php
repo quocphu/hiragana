@@ -36,7 +36,7 @@
 		$session = $helper->getSessionFromRedirect();
 	} catch(\Exception $ex) {
 		// When validation fails or other local issues
-		print_r($ex);
+// 		print_r($ex);
 	}
 	
 	if ($session) {
@@ -48,8 +48,8 @@
 	      $session, 'GET', '/me'
 	    ))->execute()->getGraphObject(GraphUser::className());
 	
-	    echo "Name: " . $user_profile->getName();
-	    print_r($user_profile);
+// 	    echo "Name: " . $user_profile->getName();
+// 	    print_r($user_profile);
 	}
 	header("Location: http://localhost:8888/fb/login.php");
 	die();

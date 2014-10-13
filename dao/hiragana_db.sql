@@ -4,11 +4,10 @@
 	description character varying(500),
 	accountid integer,
 	columnsize integer,
-	votes integer default 0,
-	likes integer default 0,
+	views integer default 0,
 	create_date timestamp,
 	update_date timestamp,
-	tag character varying(500)
+	tag character varying(500),
 	status integer
 );
 
@@ -31,5 +30,7 @@ create table account (
 	id serial primary key,
 	uid character varying (100),
 	pwd character varying(500),
+	fbid character varying(100),
+	fbName character varying(500)
 	
 );

@@ -104,7 +104,9 @@ class DP {
 				$sql=str_replace($val[0], $object->$prop, $sql);
 			}
 		}
-Plog::out($sql);
+		if(OUT_SQL){
+			Plog::out($sql);
+		}
 		return $sql;
 	}
 	
@@ -132,12 +134,18 @@ Plog::out($sql);
 	}
 	
 	public function selectScalar($sql, $param = null){
+// 		if($param != null){
+// 			$stmt = $this->db->prepare($sql);
+// 			$stmt->execute($param);
+// 		} else{
+// 			$stmt = $this->db->query($sql);
+// 		}
 		if($param != null){
-			$stmt = $this->db->prepare($sql);
-			$stmt->execute($param);
-		} else{
-			$stmt = $this->db->query($sql);
+			$sql = $this->queryProcess($sql, $param);
+			
 		}
+		 
+		$stmt = $this->db->query($sql);
 		
 		while ( $row = $stmt->fetch ( PDO::FETCH_NUM ) ) {
 			return $row[0];
