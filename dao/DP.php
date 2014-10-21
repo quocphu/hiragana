@@ -1,5 +1,5 @@
 <?php
-require_once("config.properties");
+require_once("config/config.properties");
 class DP {
 	private  $db;
 	private static $instant;

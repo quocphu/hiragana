@@ -8,10 +8,5 @@
 <link type="text/css" rel="stylesheet" href="{$root}/css/style.css">
 <script type="text/javascript" src="{$root}/js/jquery.min.js"></script>
 <script type="text/javascript" src="{$root}/js/startup.js"></script>
-<script type="text/javascript">
-	$(document).ready(function() {
-		createStep2();
-	});
-</script>
 </head>
 <body class={$body_class}>

@@ -27,6 +27,4 @@ function __autoload($class_name) {
 	$rs = $patternSrv->searchNew("");
 	$jsonData = ["result" => "OK", "count"];
 	PLog::out(json_encode($rs));
-
-
 ?>

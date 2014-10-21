@@ -272,3 +272,11 @@ body {
 .footer .copyright li {
 	float: left;
 }
+.over-scroll {
+	overflow: scroll;
+}
+
+.hide {
+	/* visibility: hidden; */
+	display: none;
+}

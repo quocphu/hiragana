@@ -26,5 +26,28 @@ class Validator{
 	public static function regex($input, $pattern){
 		return filter_var($input, FILTER_VALIDATE_REGEXP, array("options"=>array("regexp"=>$pattern)));
 	}
+	public static function isEmpty($input) {
+		if(!isset($input) || trim($input) != "") {
+			return true;
+		}
+		return false;
+	}
+	
+	public static function validMessage($arg, $message) {
+		for ($i = 0; $i < sizeof($arg); $i++) {
+			$message = str_replace("{".$i."}", $arg[$i], $message);
+		}
+		return $message;
+	}
+	
+	public static function normalize($data){
+		if(!isset($data)){
+			return "";
+		}
+		$data = trim($data);
+		$data = stripslashes($data);
+		$data = htmlspecialchars($data);
+		return $data;
+	}
 }
 ?>

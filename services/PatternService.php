@@ -11,7 +11,6 @@ class PatternService {
 		$this->patternDao = new PatternDao ( $dp );
 		$this->patternDetailDao = new PatternDetailDao($dp);
 		$this->patternHeaderDao = new PatternColumnDao ( $dp );
-		$this->studentDao = new StudentDao ( $dp );
 		$this->dp = $dp;
 	}
 	/**

@@ -2,9 +2,8 @@
 		<div class="wrap">
 			<div class="logo">perfect website</div>
 			<div class="search">
-				<form>
-					<input type="text" value="search" /> <input type="submit"
-						value="search" />
+				<form name="search" method="get" action="/search">
+					<input id="title" name="title" type="text" value="{$param}" /> <input type="submit" value="search" />
 				</form>
 			</div>
 

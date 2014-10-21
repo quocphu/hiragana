@@ -1,5 +1,5 @@
 {include file="header.tpl.php" body_class="index" root=".."}
-{include file="menu.tpl.php"  css_class="alt reveal"  nav_class="alt reveal"}
+{include file="menu.tpl.php"  css_class="alt reveal"  nav_class="alt reveal" param=""}
 <div class="main">
 		<div class="wrap">
 			<div class="detail-main">
@@ -14,12 +14,14 @@
 							</tr>
 							<tr>
 								<td>So cot</td>
-								<td colspan="2"><select>
-										<option>2</option>
-										<option>3</option>
-										<option>4</option>
-										<option>5</option>
-								</select></td>
+								<td colspan="2">
+									<select name="column_number">
+											<option>2</option>
+											<option>3</option>
+											<option>4</option>
+											<option>5</option>
+									</select>
+								</td>
 
 							</tr>
 							<tr>
@@ -48,7 +50,8 @@
 
 							</tr>
 						</table>
-						<input id="btnNext" type="button" value="Next" />
+						<input id="btnNextHand" type="button" value="Hand input" />
+						<input id="btnNextFile" type="button" value="File input" />
 					</form>
 				</div>
 			</div>
@@ -58,6 +61,11 @@
 	$(document).ready(function() {
 		createStep1();
 		nextButton1();
+
+		$('form[name="search"]').on('submit', function(e) {
+			e.preventDefault();
+			alert(1);
+		});
 	});
 </script>
 {include file="footer.tpl.php"}

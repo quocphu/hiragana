@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-10-13 09:48:33
+<?php /* Smarty version Smarty-3.1.19, created on 2014-10-14 12:35:29
          compiled from "./templates/header.tpl.php" */ ?>
 <?php /*%%SmartyHeaderCode:17631406365417961966cf91-42568171%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'b6d024528e2a409d7809ab579aeff15c17ca5c92' => 
     array (
       0 => './templates/header.tpl.php',
-      1 => 1413186439,
+      1 => 1413282266,
       2 => 'file',
     ),
   ),
@@ -40,11 +40,6 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 /js/jquery.min.js"></script>
 <script type="text/javascript" src="<?php echo $_smarty_tpl->tpl_vars['root']->value;?>
 /js/startup.js"></script>
-<script type="text/javascript">
-	$(document).ready(function() {
-		createStep2();
-	});
-</script>
 </head>
 <body class=<?php echo $_smarty_tpl->tpl_vars['body_class']->value;?>
 ><?php }} ?>
