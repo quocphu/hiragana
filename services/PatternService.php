@@ -23,6 +23,11 @@ class PatternService {
 		$result = new PatternDto();
 		
 		$info = $this->patternDao->getById($id);
+		
+		if($info == null) {
+			return null;
+		}
+		
 		$result->info = $info;
 		
 		if($detail){
@@ -62,7 +67,7 @@ class PatternService {
 				$this->patternDetailDao->insert ( $detail );
 			}
 			$this->dp->getDB()->commit();
-		} catch ( PDOException $ex ) {
+		} catch ( Exception $ex ) {
 			// Something went wrong rollback!
 			$this->dp->getDB ()->rollBack ();
 			echo $ex->getMessage ();
@@ -79,8 +84,12 @@ class PatternService {
 	 */
 	public function search($title, $limit, $offset){
 		$count =  $this->patternDao->searchCount($title);
-		$data = $this->patternDao->search($title, $limit, $offset, "id");
-		return ["all"=>$count, "data"=>$data];
+		if($count <= $offset){
+			$data = [];
+		}else {
+			$data = $this->patternDao->search($title, $limit, $offset, "id");
+		}
+		return ["count"=>$count, "data"=>$data];
 	}
 	
 	/**
@@ -93,6 +102,103 @@ class PatternService {
 	public function searchNew($title){
 		$data = $this->patternDao->search($title, 10, 0, "create_date", "desc");
 		return $data;
+	}
+	
+	/**
+	 * Update pattern
+	 * @param PatternDto $ptn
+	 * @return Number: > 0 : ok, = 0 : fail, < 0 : data input is same current data
+	 */
+	public function update($ptn, $old) {
+		$updated = 0;
+		$isUpdPattern = false;
+		$isUpdHeader = false;
+		$isUpdDetail = false;
+		$headerUpd = [];
+		$detailIns = [];
+		$detailUpd = [];
+		$detailDel = [];
+		
+		// Compare title
+		if($ptn->info->title != $old->info->title){
+			$isUpdPattern = true;
+		}
+		
+		// Compare header
+		for($i = 0; $i < $ptn->info->columnsize; $i++){
+			if($ptn->header[$i]->header != $old->header[$i]->header){
+				$headerUpd[] = $i;
+				$isUpdHeader = true;
+			}
+		}
+		
+		// Compare data
+		if(count($ptn->data) > count($old->data)){
+			for($i = 0; $i < count($ptn->data); $i++) {
+				if($i > count($old->data)) {
+					$detailIns[] = $i;
+				} else {
+					if($ptn->data[$i]->value != $old->data[$i]->value) {
+						$detailUpd[] = $i;
+					}
+				}
+			}
+			
+		} else {
+			for($i = 0; $i < count($old->data); $i++) {
+				if($i > count($ptn->data)) {
+					$detailDel[] =$i;
+					$isUpdDetail = true;
+				} else {
+					if($ptn->data[$i]->value != $old->data[$i]->value) {
+						
+						$detailUpd[] = $i;
+						$isUpdDetail = true;
+					}
+				}
+			}
+		}
+		// Update database
+		if($isUpdPattern || $isUpdHeader || $isUpdDetail) {
+			try{
+				$this->dp->getDB ()->beginTransaction ();
+				// Update pattern
+				$updated = $this->patternDao->update($ptn->info);
+				if($updated != 0) {
+					// Update header
+					for($i = 0; $i < count($headerUpd); $i++) {
+						$this->patternHeaderDao->update($ptn->header[$headerUpd[$i]]);
+					}
+				
+					// Delete detail
+					for($i = 0; $i < count($detailDel); $i++) {
+						$this->patternDetailDao->delete($old->data[$detailDel[$i]]->id);
+					}
+				
+					// Update detail
+					for($i = 0; $i < count($detailUpd); $i++) {
+						 $old->data[$detailUpd[$i]]->value = $ptn->data[$detailUpd[$i]]->value;
+						$this->patternDetailDao->update($old->data[$detailUpd[$i]]);
+					}
+				
+					// Insert detail
+					for($i = 0; $i < count($detailIns); $i++) {
+						$this->patternDetailDao->insert($ptn->data[$detailIns[$i]]);
+					}
+				}
+				
+				$this->dp->getDB()->commit();
+				$updated = 1;
+			}catch (Exception $ex){
+				$this->dp->getDB()->rollBack();
+				$updated = 0;
+				PLog::log($ex);
+			}
+		} else {
+			$updated = -1;
+		}	
+		
+		return $updated;
 	}
 }
 ?>

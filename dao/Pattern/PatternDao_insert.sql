@@ -2,11 +2,14 @@ insert into pattern (
 		title,
 		description,
 		accountid,
-		columnsize
+		columnsize,
+		create_date,
+		update_date
 	) values (
 		'#title#',
 		'#description#',
 		#accountid#,
-		#columnsize#
-	
+		#columnsize#,
+		current_timestamp,
+		current_timestamp
 	);

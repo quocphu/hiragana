@@ -6,8 +6,8 @@
 			<h1>Moi nhat</h1>
 			<ul class="list-pattern">
 				<li>
-					<h3>Neque porro quisquam est qui dolorem ipsum
-						quia dolor sit amet</h3>
+					<h3><a>Neque porro quisquam est qui dolorem ipsum
+						quia dolor sit amet</a></h3>
 					<div class="detail">
 						<div class="avatar">
 							<img src="images/avatar.jpg" />
@@ -32,7 +32,7 @@
 			var param = '{$param}';
 			var url = '{$url}';
 
-			search(url, param);
+			searchNew(url, param);
 		});
 	</script>
 {include file="footer.tpl.php"}

@@ -280,3 +280,6 @@ body {
 	/* visibility: hidden; */
 	display: none;
 }
+.width30percent {
+	width: 15% !important;
+}

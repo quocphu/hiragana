@@ -43,23 +43,23 @@ function createStep3(d){
 //		}
 		d.data = data;
 	}
-	console.log(d.data)
+		
 	var h = Array();
 	for (var i = 0; i < d.header.length; i++) {
 		h[i] = d.header[i].header;
 	}
 	
 	var table = $('table[id="data"]');
-	createRow(table, h, -1, true);
+	createRow(table, h, -1, true, false);
 	for (var i = 0; i < d.data.length; i++) {
-		createRow(table, d.data[i], i, false);
+		createRow(table, d.data[i], i, false, true);
 	}
 	addDeleteButtonEvent($('.create'));
 }
 
 // Add row to table
-function createRow(table, rowData, rowNum, isHeader){
-	var tr = $('<tr></tr>');
+function createRow(table, rowData, rowNum, isHeader, addDeleteButton){
+	var tr = $('<tr row="' + rowNum + '"></tr>');
 	for(var i = 0; i < rowData.length; i++){
 		if(isHeader){
 			tr.append('<th>'+rowData[i]+'</th>');
@@ -67,8 +67,8 @@ function createRow(table, rowData, rowNum, isHeader){
 			tr.append('<td><input name="column' + rowNum + i + '" type="text" value="'+rowData[i]+'"/></td>');
 		}
 	}
-	if(!isHeader) {
-		tr.append('<td><input type="button" value="Xoa" class="delete"/></td>');
+	if(addDeleteButton) {
+		tr.append('<td><input type="button" value="✗" class="width30percent delete"/><input type="button" value="&#x25B2;" class="width30percent moveup"/><input type="button" value="&#x25BC;" class="width30percent movedown"/></td>');
 	}
 	table.append(tr);
 }
@@ -113,7 +113,7 @@ function review() {
 		var table = $('table[id="data"]');
 		table.html('');
 		for (var i = 0; i < rows.length; i++) {
-			createRow(table, rows[i], i, false);
+			createRow(table, rows[i], i, false, true);
 		}	
 	}
 }
@@ -138,11 +138,46 @@ function split(contents, wordSerapator){
 
 // Add event for delete button
 function addDeleteButtonEvent(table){
-	table.find('.delete').click(function(){
+	table.find('.delete').off('click').on('click', function(){
 		var del = confirm("Ban muon xoa?");
 		if(del){
 			$(this).closest('tr').remove();
 		}
+	});
+	
+	// Click event
+	table.find('.moveup').off('click').on('click', function(){
+		var seft = $(this);
+		var tr = seft.closest('tr');
+		var trSibling = tr.prev().find('input[type="text"]');
+		// If cannot find previous row or previous row is header row we will top
+		if(tr.prev().length == 0 || tr.prev().attr('row') == -1){
+			return;
+		}
+		
+		// Swap value of 2 row
+		tr.find('input[type="text"]').each(function(idx, el){
+			var tmpVal = $(el).val();
+			
+			$(el).val(trSibling.eq(idx).val());
+			trSibling.eq(idx).val(tmpVal);
+		});
+	});
+	
+	table.find('.movedown').off('click').on('click', function(){
+		var seft = $(this);
+		var tr = seft.closest('tr');
+		var trSibling = tr.next().find('input[type="text"]');
+		if(tr.prev().length == 0 || tr.next().find('input[type="text"]').length == 0){
+			return;
+		}
+		tr.find('input[type="text"]').each(function(idx, el){
+			var tmpVal = $(el).val();
+			
+			$(el).val(trSibling.eq(idx).val());
+			trSibling.eq(idx).val(tmpVal);
+		});
+		
 	});
 }
 
@@ -175,35 +210,55 @@ function game(){
 	board.append(flyer);
 }
 
-function search(url, param){
-	console.log('search');
-	var postData = null;
-	if(param != null) {
-		postData = {'title':$(param).val()};
-	}
+function search(para){
 	$.ajax({
-		type : "POST",
-		url : url,
-		data: postData
+		type : 'POST',
+		url : '/api/pattern/search',
+		data: para
 	}).done(function(data) {
-		result = $.parseJSON(data);
-		if (result.result == 'OK') {
-			listPattern = $('.list-pattern');
-			item = $('.list-pattern>li:nth(0)')
-			listPattern.html('');
-			for(var i = 0, len = result.data.length; i < len; i++){
-				var temp = item.clone();
-				temp.find('h3').html('<a href="/detail/' + result.data[i].id + '">' + result.data[i].title + '</a>');
-				temp.find('li:nth(0)').html('<a href="">' + result.data[i].authorName + '</a>');
-				temp.find('li:nth(1)').html(result.data[i].createDate);
-				temp.find('li:nth(2)').html(result.data[i].itemCount);
-				temp.find('li:nth(3)').html(result.data[i].views + ' views');
-				listPattern.append(temp);
-			}
+		rs = $.parseJSON(data);
+		//rs = $.parseJSON('{"count":"24","data":[{"id":"18","title":"column 11","authorName":"fb Name","authorId":"1","createDate":"2014-10-22 15:13:07","itemCount":"22.0000","views":"0","columnSize":"3"},{"id":"19","title":"column 11","authorName":"fb Name","authorId":"1","createDate":"2014-10-22 15:13:07","itemCount":"22.0000","views":"0","columnSize":"3"},{"id":"20","title":"column 11","authorName":"fb Name","authorId":"1","createDate":"2014-10-22 15:13:07","itemCount":"22.0000","views":"0","columnSize":"3"},{"id":"21","title":"column 11","authorName":"fb Name","authorId":"1","createDate":"2014-10-22 15:13:07","itemCount":"22.0000","views":"0","columnSize":"3"},{"id":"22","title":"column 11","authorName":"fb Name","authorId":"1","createDate":"2014-10-22 15:13:07","itemCount":"22.0000","views":"0","columnSize":"3"},{"id":"23","title":"column 11","authorName":"fb Name","authorId":"1","createDate":"2014-10-22 15:13:07","itemCount":"22.0000","views":"0","columnSize":"3"},{"id":"24","title":"column 11","authorName":"fb Name","authorId":"1","createDate":"2014-10-22 15:13:07","itemCount":"22.0000","views":"0","columnSize":"3"},{"id":"25","title":"column 11","authorName":"fb Name","authorId":"1","createDate":"2014-10-22 15:13:07","itemCount":"22.0000","views":"0","columnSize":"3"},{"id":"26","title":"dong tu bat quy tac tieng anh cap nhat [hieb","authorName":"fb Name","authorId":"1","createDate":"2014-10-22 15:13:07","itemCount":"3.0000","views":"0","columnSize":"3"},{"id":"27","title":"column 11","authorName":"fb Name","authorId":"1","createDate":"2014-10-22 15:13:07","itemCount":"5.0000","views":"0","columnSize":"5"}],"title":"","nextPage":3}');
+		var item = $('.list-pattern>li:nth(0)');
+		for (var i = 0; i< rs.data.length; i++) {
+			$('.list-pattern').find('li[id="'+rs.data[i].id+'"]').remove();
+			var newItem = item.clone();
+			newItem.find('h3 a').attr('href', '/detail/' + rs.data[i].id).html(rs.data[i].title);
+			newItem.find('li:eq(0)').html(rs.data[i].authorName);
+			newItem.find('li:eq(1)').html(rs.data[i].createDate);
+			newItem.find('li:eq(2)').html(numeral(rs.data[i].itemCount).format('0,0'));
+			newItem.find('li:eq(3)').html(rs.data[i].views);
+			$('.list-pattern').append(newItem);
+		}
+		$('#nextPage').attr('param', rs.title);
+		$('#nextPage').attr('page', rs.nextPage);
+		
+		if(rs.nextPage == -1){
+			$('#nextPage').remove();
 		}
 	});
 } 
-
+function searchNew(url, para){
+	$.ajax({
+		type : 'POST',
+		url : url,
+		data: para
+	}).done(function(data) {
+		rs = $.parseJSON(data);
+		var item = $('.list-pattern>li:nth(0)');
+		$('.list-pattern>li').remove();
+		for (var i = 0; i< rs.data.length; i++) {
+			
+			var newItem = item.clone();
+			newItem.find('h3 a').attr('href', '/detail/' + rs.data[i].id).html(rs.data[i].title);
+			newItem.find('li:eq(0)').html(rs.data[i].authorName);
+			newItem.find('li:eq(1)').html(rs.data[i].createDate);
+			newItem.find('li:eq(2)').html(numeral(rs.data[i].itemCount).format('0,0'));
+			newItem.find('li:eq(3)').html(rs.data[i].views);
+			$('.list-pattern').append(newItem);
+		}
+		
+	});
+} 
 function nextButton1() {
 	$('#btnNextHand').click(function(){
 		if(checkInput()){
@@ -245,6 +300,7 @@ function nextButton1() {
 		return true;
 	}
 }
+
 function nextButton2() {
 	$('#btnNext').on('click', function(){
 		var tr = $('#data').find('tr');
@@ -349,5 +405,49 @@ function uploadFile(){
 			$(this).attr('target','upload_frame').submit();						
 		}
 
-});
+	});
+}
+
+function edit(d) {
+	var size = d.info.columnsize;
+	var table = $('table[id="data"]');
+	
+	// Create header
+	createRow(table, d.header, -1, false, false);
+	// Create data
+	for (var i = 0; i < d.data.length; i++) {
+		createRow(table, d.data[i], i, false, true);
+	}
+	
+	// Add event for delete button
+	addDeleteButtonEvent($('.create'));
+	
+	
+	// add new row event
+	$('#btnNewRow').on('click', function(){
+		addNewRow($('#data'));
+	});
+	
+	// Add next button event
+	$('#btnNext').on('click', function(){
+		var form = $('form[name="edit"]');
+		$.ajax({
+			type: 'POST',
+			url: '/api/pattern/edit',
+			data: form.serialize()
+		}).done(function(data){
+			rs = $.parseJSON(data);
+			if(rs.valid == 0){
+				alert("error");
+				if($.isArray(rs.error)) {
+					for (var i = 0; i < rs.error.length; i++) {
+						// display error here
+					}
+				}
+			} else if(rs.valid == 1) {
+//				window.location.href = '/new/4';
+				location.reload(true);
+			}
+		});
+	});
 }

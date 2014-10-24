@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-10-17 03:38:01
+<?php /* Smarty version Smarty-3.1.19, created on 2014-10-24 03:42:36
          compiled from "views/index.php" */ ?>
 <?php /*%%SmartyHeaderCode:2101918680543b8a5ac07149-40450912%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'c6a0a497fd48d3f9722e89f19928e2d02f6723b3' => 
     array (
       0 => 'views/index.php',
-      1 => 1413455131,
+      1 => 1414114954,
       2 => 'file',
     ),
   ),
@@ -34,8 +34,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 			<h1>Moi nhat</h1>
 			<ul class="list-pattern">
 				<li>
-					<h3>Neque porro quisquam est qui dolorem ipsum
-						quia dolor sit amet</h3>
+					<h3><a>Neque porro quisquam est qui dolorem ipsum
+						quia dolor sit amet</a></h3>
 					<div class="detail">
 						<div class="avatar">
 							<img src="images/avatar.jpg" />
@@ -62,7 +62,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 			var url = '<?php echo $_smarty_tpl->tpl_vars['url']->value;?>
 ';
 
-			search(url, param);
+			searchNew(url, param);
 		});
 	</script>
 <?php echo $_smarty_tpl->getSubTemplate ("footer.tpl.php", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array(), 0);?>

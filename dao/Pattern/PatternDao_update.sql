@@ -5,6 +5,8 @@ SET
 	description		= '#description#',
 	accountid		= #accountid#,
 	columnsize		= #columnsize#,
-	votes			= '#votes#',
-	status			= #status#
-WHERE id=#id#
+	views			= #views#,
+	status			= #status#,
+	update_date		= current_timestamp
+WHERE id = #id#
+AND update_date = '#update_date#'

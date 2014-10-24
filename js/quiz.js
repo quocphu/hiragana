@@ -63,9 +63,8 @@ Quiz =  function (data) {
 		var inputEl = $('.input').find('li>input');
 		var liEl = $('.input').find('li');
 		inputEl.each(function(idx, el){
-			$(el).off('keyup').on('keyup', function(e){
-				console.log(e.keyCode)
-				if(e.keyCode == 13){
+			$(el).off('keyup').on('keyup blur', function(e){
+				if(e.keyCode == 13 || e.type == 'blur'){
 					if(data.data[crIdxArr[crIdx]][idx].toLowerCase() == $(el).val().toLowerCase()){
 						var nextInput = null;
 						for(var i = idx + 1; i < liEl.length; i++){
@@ -74,14 +73,14 @@ Quiz =  function (data) {
 								break;
 							}
 						}
-						console.log(nextInput);
 						if(nextInput != null){
-							nextInput.find('input').select();
-							$(nextInput.find('input')).focus();
+							nextInput.find('input')[0].select();
+							nextInput.find('input')[0].focus();
+//							$(nextInput.find('input')[0]).val('');
 						} else {
 							crIdx++;
 							$(el).val('');
-							$('.input li:not(.hidden):first').find('input').focus().select();
+							$('.input li:not(.hidden):first').find('input').select().focus();
 							
 							// Set display data
 							$('.detail-show li').each(function(idx, el){
@@ -165,9 +164,9 @@ Quiz =  function (data) {
 			var z = elInputControl.clone();
 			
 			d.html(data.data[0][i]);
-			x.find('span').html(data.header[i].header);
-			y.find('a').html(data.header[i].header);
-			z.find('a').html(data.header[i].header);
+			x.find('span').html(data.header[i]);
+			y.find('a').html(data.header[i]);
+			z.find('a').html(data.header[i]);
 			
 			input.append(x);
 			$('#showControl').append(y);
@@ -202,13 +201,24 @@ Quiz =  function (data) {
 	this.random = function (regx) {
 		// 
 		var selectedIdxArr  = applyData(regx);
-		crIdex = 0;
+		crIdx = 0;
 		crIdxArr = random3(selectedIdxArr.length);
 		$('.detail-show li').each(function(idx, el){
 			$(el).html(data.data[crIdxArr[crIdx]][idx]);
 		});
 	}
-	
+	this.next = function(step){
+		crIdx += step;
+		if(crIdx < 0 ){
+			crIdx = 0;
+		} else if(crIdx >= crIdxArr.length){
+			crIdx = crIdxArr.length - 1;
+		}
+		// Set display data
+		$('.detail-show li').each(function(idx, el){
+			$(el).html(data.data[crIdxArr[crIdx]][idx]);
+		});
+	}
 	// Get data from regx
 	function applyData(regx){
 		regx = regx.trim();

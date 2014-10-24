@@ -50,5 +50,10 @@ class PatternDetailDao extends BaseDao {
 		$sql = $this->getSql(__FUNCTION__);
 		return $this->db->update($sql, $pattern);
 	}
+	
+	public function delete($id) {
+		$sql = $this->getSql(__FUNCTION__);
+		return $this->db->update($sql, $pattern);
+	}
 }
 ?>

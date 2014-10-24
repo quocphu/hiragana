@@ -22,14 +22,14 @@
 							<li ><input type="text" value="input 3" /><span>Column title 3</span></li>
 							<li ><input type="text" value="input 4" /><span>Column title 4</span></li>
 							<li ><input type="text" value="input 5" /><span>Column title 4</span></li>
-							<li ><input type="button" value="Prev" /><input type="button" value="Next" /></li>
+							
 						</ul>
 					</div>
+					<input type="button" value="Prev" id="btnPrev" /><input type="button" value="Next" id="btnNext"/>
 					<div class="setting">
 						<div>
-							<span>Items show:</span> <input type="text" value="1,2,3,5-9" />
-							<input type="button" value="apply" /> <span>Explain for
-								this regex</span> <br>
+							<span>Items show:</span> <input type="text" name="filter" value="1,2,3,5-9" />
+							<input type="button" value="apply" id="btnFilter"/> <span>Explain for this regex</span> <br>
 						</div>
 						<div class="show">
 							<span>Column show:</span>
@@ -68,6 +68,17 @@
 		var q = new Quiz(ptn)
 		q.init();
 		q.random('');
+
+		$('#btnNext').off('click').on('click', function(){
+			q.next(1);	
+		});
+		$('#btnPrev').off('click').on('click', function(){
+			q.next(-1);	
+		});
+		$('#btnFilter').off('click').on('click', function(){
+			var filter = $('input[name="filter"]').val();
+			q.random(filter);	
+		});
 	});
 </script>
 {include file="footer.tpl.php"}

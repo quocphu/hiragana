@@ -10,7 +10,7 @@ class DP {
 	 */
 	public static function getInstant() {
 		
-		if(!isset(self::$instance) || self::$instant == null){
+		if(!isset(self::$instance) || is_null(self::$instant)){
 			self::$instant = new DP();
 			self::$instant->db = new PDO ( 'mysql:host='.DBHOST.';dbname='.DBNAME.';charset=utf8', DBUSER, DBPASS );
 			self::$instant->db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -20,7 +20,6 @@ class DP {
 	}
 	
 	public function getDB(){
-		print_r(isset($this->db));
 		return $this->db;
 	}
 	private function mapper($row, $instance) {
@@ -37,7 +36,7 @@ class DP {
 	 * @return Object Instant of object
 	 */
 	public function selectOneObject($query, $objectName, $parameter = null) {
-		if($parameter != null){
+		if(!is_null($parameter)){
 			$query = $sql = $this->queryProcess($query, $parameter);
 		}
 		
@@ -48,6 +47,7 @@ class DP {
 			$this->mapper($row, $object);
 			return  $object;
 		}
+		return null;
 	}
 	
 	/**
@@ -57,7 +57,7 @@ class DP {
 	 * @return Array List of object
 	 */
 	public function selectObject($query, $objectName, $parameter = null) {
-		if($parameter != null){
+		if(!is_null($parameter)){
 			$query = $sql = $this->queryProcess($query, $parameter);
 		}
 		
@@ -93,16 +93,32 @@ class DP {
 	 */
 	private function queryProcess($sql, $object){
 		$prop="";
-		preg_match_all("/#[a-zA-Z0-9]+#/", $sql, $matches, PREG_SET_ORDER);
+		preg_match_all("/#[a-zA-Z0-9_]+#/", $sql, $matches, PREG_SET_ORDER);
 
 		$isArray = is_array($object);
 		foreach ($matches as $val) {
 			$prop = str_replace("#","",$val[0]);
+// 			if($isArray){
+// 				$sql=str_replace($val[0], $object[$prop], $sql);
+// 			}else{				
+// 				$sql=str_replace($val[0], $object->$prop, $sql);
+// 			}
+			$propVal;
 			if($isArray){
-				$sql=str_replace($val[0], $object[$prop], $sql);
-			}else{				
-				$sql=str_replace($val[0], $object->$prop, $sql);
+				if(!is_string($object[$prop]) && is_null($object[$prop])){
+					$propVal = 'null';
+				}else {
+					$propVal = $object[$prop];
+				}
+			} else{
+				if (! is_string ( $object->$prop ) && is_null($object->$prop)) {
+					$propVal = 'null';
+				} else {
+					$propVal = $object->$prop;
+				}
 			}
+			
+			$sql=str_replace($val[0], $propVal, $sql);
 		}
 		if(OUT_SQL){
 			Plog::out($sql);
@@ -140,7 +156,7 @@ class DP {
 // 		} else{
 // 			$stmt = $this->db->query($sql);
 // 		}
-		if($param != null){
+		if(!is_null($param )){
 			$sql = $this->queryProcess($sql, $param);
 			
 		}

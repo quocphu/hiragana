@@ -37,7 +37,7 @@ class PatternApi {
 		// Check title
 		if(!Validator::checkLengthMinMax($title, 5, 200)) {
 			Validator::validMessage(array(5, 200), TITLE_LENGTH);
-			$result["title"]=Validator::validMessage(array(5, 200), TITLE_LENGTH);
+			$result["title"] = Validator::validMessage(array(5, 200), TITLE_LENGTH);
 			$valid = 0;
 		}
 		
@@ -57,35 +57,35 @@ class PatternApi {
 		$columnTitleLength = array(1, 50);
 		
 		// Check column1
-		if(!Validator::checkLengthMinMax($column1, 1, 50)) {
+		if(!Validator::checkLengthMinMax($column1, 1, MAX_COLUMN_TITLE_LENGTH)) {
 			Validator::validMessage($columnTitleLength, COLUMN_TITLE_LENGTH);
 			$result["column1"] = Validator::validMessage($columnTitleLength, COLUMN_TITLE_LENGTH);
 			$valid = 0;
 		}
 		
 		// Check column2
-		if(!Validator::checkLengthMinMax($column2, 1, 50)) {
+		if(!Validator::checkLengthMinMax($column2, 1, MAX_COLUMN_TITLE_LENGTH)) {
 			Validator::validMessage($columnTitleLength, COLUMN_TITLE_LENGTH);
 			$result["column2"] = Validator::validMessage($columnTitleLength, COLUMN_TITLE_LENGTH);
 			$valid = 0;
 		}
 		
 		// Check column3
-		if($columnNumber > 2 && !Validator::checkLengthMinMax($column3, 1, 50)) {
+		if($columnNumber > 2 && !Validator::checkLengthMinMax($column3, 1, MAX_COLUMN_TITLE_LENGTH)) {
 			Validator::validMessage($columnTitleLength, COLUMN_TITLE_LENGTH);
 			$result["column3"] = Validator::validMessage($columnTitleLength, COLUMN_TITLE_LENGTH);
 			$valid = 0;
 		}
 		
 		// Check column4
-		if($columnNumber > 3 && !Validator::checkLengthMinMax($column4, 1, 50)) {
+		if($columnNumber > 3 && !Validator::checkLengthMinMax($column4, 1, MAX_COLUMN_TITLE_LENGTH)) {
 			Validator::validMessage($columnTitleLength, COLUMN_TITLE_LENGTH);
 			$result["column4"] = Validator::validMessage($columnTitleLength, COLUMN_TITLE_LENGTH);
 			$valid = 0;
 		}
 		
 		// Check column5
-		if($columnNumber > 4 && !Validator::checkLengthMinMax($column5, 1, 50)) {
+		if($columnNumber > 4 && !Validator::checkLengthMinMax($column5, 1, MAX_COLUMN_TITLE_LENGTH)) {
 			Validator::validMessage($columnTitleLength, COLUMN_TITLE_LENGTH);
 			$result["column5"] = Validator::validMessage($columnTitleLength, COLUMN_TITLE_LENGTH);
 			$valid = 0;
@@ -166,6 +166,99 @@ class PatternApi {
 		$result['valid'] = $valid;
 		$result['error'] = $error;
 		return $result;
+	}
+	public function edit($data) {
+		$error = array();
+		// Old data
+		$id = $data['id'];
+		$title = $data['title'];
+		$updateDate = $data['update_date'];
+		$columnSize = $data['column_size'];
+		if($id == '' || $updateDate == '' || $columnSize == '') {
+			return ['valid' => 0, 'error'=>["invalid_data"]];
+		}
+		// Current data
+		$crt = $this->service->getById($id, true);
+		
+		if($crt == null) {
+			$error[] = "not_exist";
+			return ['valid' => 0, 'error'=>$error];
+		}
+		
+		if($updateDate != $crt->info->update_date) {
+			$error[] = "updated_by_other";
+			return ['valid' => 0, 'error'=>["updated_by_other"]];
+		}
+		
+		if($columnSize != $crt->info->columnsize) {
+			return ['valid' => 0, 'error'=>$error];
+		}
+		
+		// Header
+		$ptn = new PatternDto();
+		$ptn->info = clone $crt->info;
+		$ptn->info->title = $title;
+		$ptn->header = [];
+		$valid = 1;
+		
+		// Check header data
+		for($i = 0; $i < $crt->info->columnsize; $i++) {
+			$val = $data['column-1'.$i];
+			if (!Validator::checkLengthMinMax($val, 1, MAX_COLUMN_TITLE_LENGTH)) {
+				$error[] = ['column-1'.$i, "length"];
+				$valid = 0;
+			} else {
+				$ptnCol = new PatternColumn();
+				$ptnCol->id = $crt->header[$i]->id;
+				$ptnCol->patternid = $crt->header[$i]->patternid;
+				$ptnCol->priority = $crt->header[$i]->priority;
+				$ptnCol->header = $val;
+				$ptn->header[] = $ptnCol;
+			}
+		}
+		
+		// Data
+		$rowNum = (count($data) - 7) / $columnSize;
+		
+		$detail = array();
+		
+		
+		for($i = 0; $i < $rowNum; $i++){
+			for($j = 0 ; $j < $columnSize; $j++) {
+				$name = 'column'.$i.$j;
+				$val = $data['column'.$i.$j];
+				// Data length
+				if(!Validator::checkLengthMinMax($val, MIN_COLUMN_DATA_LENGTH, MAX_COLUMN_DATA_LENGTH)){
+					$error[] = [$name, "length"];
+					$valid = 0;
+				}else{
+					$columnDetail = new PatternDetail();
+					$columnDetail->value = Validator::normalize($val);
+					$columnDetail->priority = $j;
+					$columnDetail->columnid = $crt->header[$j]->id;
+					$detail[] = $columnDetail;
+				}
+			}
+		}
+		
+		if ($valid == 0) {
+			return ['valid' => 0, 'error' => $error];
+		}
+		$ptn->data = $detail;
+		
+		// Update database
+		$update = $this->service->update($ptn, $crt);
+		
+		if($update > 0) {
+			$valid = 1;
+		} else if($update == -1){
+			$valid = 0;
+			$error[] = "data is same";
+		} else {
+			$valid = 0;
+			$error[] = "not_exist or update by other user";
+		}
+		return ['valid' => $valid, 'error' => $error];
 	}
 }
 ?>

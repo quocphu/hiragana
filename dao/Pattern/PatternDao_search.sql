@@ -3,7 +3,7 @@ select
 	dt.title,
 	dt.views,
 	dt.columnSize,
-	dt.create_date as createDate,
+	DATE_FORMAT(dt.create_date, '%d-%m-%Y') as createDate,
 	dt.accountid as authorId,
 	ac.fbname as authorName,
 	(select count(*)/dt.columnSize from pattern_detail where patternid = dt.id) as itemCount

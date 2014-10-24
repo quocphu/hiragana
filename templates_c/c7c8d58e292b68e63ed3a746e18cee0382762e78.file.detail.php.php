@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-10-21 04:19:33
+<?php /* Smarty version Smarty-3.1.19, created on 2014-10-23 08:11:25
          compiled from "views/detail.php" */ ?>
 <?php /*%%SmartyHeaderCode:1644160865543b8b6cde39a9-51599534%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'c7c8d58e292b68e63ed3a746e18cee0382762e78' => 
     array (
       0 => 'views/detail.php',
-      1 => 1413857414,
+      1 => 1414044683,
       2 => 'file',
     ),
   ),
@@ -50,14 +50,14 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 							<li ><input type="text" value="input 3" /><span>Column title 3</span></li>
 							<li ><input type="text" value="input 4" /><span>Column title 4</span></li>
 							<li ><input type="text" value="input 5" /><span>Column title 4</span></li>
-							<li ><input type="button" value="Prev" /><input type="button" value="Next" /></li>
+							
 						</ul>
 					</div>
+					<input type="button" value="Prev" id="btnPrev" /><input type="button" value="Next" id="btnNext"/>
 					<div class="setting">
 						<div>
-							<span>Items show:</span> <input type="text" value="1,2,3,5-9" />
-							<input type="button" value="apply" /> <span>Explain for
-								this regex</span> <br>
+							<span>Items show:</span> <input type="text" name="filter" value="1,2,3,5-9" />
+							<input type="button" value="apply" id="btnFilter"/> <span>Explain for this regex</span> <br>
 						</div>
 						<div class="show">
 							<span>Column show:</span>
@@ -97,6 +97,17 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 		var q = new Quiz(ptn)
 		q.init();
 		q.random('');
+
+		$('#btnNext').off('click').on('click', function(){
+			q.next(1);	
+		});
+		$('#btnPrev').off('click').on('click', function(){
+			q.next(-1);	
+		});
+		$('#btnFilter').off('click').on('click', function(){
+			var filter = $('input[name="filter"]').val();
+			q.random(filter);	
+		});
 	});
 </script>
 <?php echo $_smarty_tpl->getSubTemplate ("footer.tpl.php", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array(), 0);?>

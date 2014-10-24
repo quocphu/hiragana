@@ -42,20 +42,8 @@
 		$db = DP::getInstant();
 		$patternSrv = new PatternService($db);
 		$pattern = $patternSrv->getById($id, true);
-		$ptnDto = array();
-		$ptnDto['header'] = $pattern->header;
-		$ptnDto['info'] = $pattern->info;
-		$ptnDto['data'] = array();
+		$ptnDto = Common::convertPattern($pattern);
 		
-		$limit =  count($pattern->data) / $pattern->info->columnsize;
-		
-		for ($i = 0; $i < $limit; $i++) {
-			$tmp = array();
-			for($j = 0; $j < $pattern->info->columnsize; $j++) {
-				$tmp[] = $pattern->data[$i * $pattern->info->columnsize + $j]->value;
-			}
-			$ptnDto['data'][] = $tmp;
-		}
 		Flight::render('./views/detail.php', array('title' => "Detail", 'pattern'=>json_encode($ptnDto)));
 	});
 	
@@ -93,15 +81,55 @@
 		
 	});
 	
+	// Edit
+	Flight::route ('/edit/@id', function($id) {
+		$db = DP::getInstant();
+		$patternSrv = new PatternService($db);
+		$ptn = $patternSrv->getById($id, true);
+		if($ptn != null) {
+			$_SESSION[CURRENT_EDIT] = $ptn;
+			$json = json_encode(Common::convertPattern($ptn));
+			$para = array (
+						'title' => "Step3",
+						'data' => $json, 
+						'rowNum' => $ptn->info->columnsize, 
+						'id' => $ptn->info->id,
+						'patternTitle' =>$ptn->info->title,
+						'updateTime' => $ptn->info->update_date
+					);
+			
+			Flight::render('./views/edit.php', $para);
+		}
+		
+	});
+	
 	// Search
 	Flight::route ('/search', function() {
-		$param =  $_GET['title'];
+		$param = '';
+		$offset = 0;
+		$page = 1;
+		if(isset($_GET['title'])){
+			$param =  $_GET['title'];
+		}
+		if(isset($_GET['page'])){
+			$page = $_GET['page'];
+		}
+
+		if (!Validator::isNumber($page) || $page < 1) {
+			$page = 1;
+		}
 		$db = DP::getInstant();
 		$patternSrv = new PatternService($db);
 		$limit = 10;
-		$offset = 0;
+		$offset = ($page -1) * $limit;
+
 		$rs = $patternSrv->search($param, $limit, $offset);
-		Flight::render('./views/search.php', array('title' => "Tim kiem", 'searchResult'=>$rs['data'], 'param' => $param));
+		$totalPage = ceil($rs['count']/$limit);
+		$nextPage = -1;
+		if($totalPage > $page) {
+			$nextPage = $page + 1;
+		}
+		Flight::render('./views/search.php', array('title' => "Tim kiem", 'searchResult'=>$rs['data'], 'param' => $param, 'nextPage'=>$nextPage));
 	});
 	
 	// API
@@ -139,13 +167,43 @@
 	
 	// Search
 	Flight::route ('/api/pattern/search', function() {
+		$param = '';
+		$offset = 0;
+		$page = 1;
+		if(isset($_POST['title'])){
+			$param =  $_POST['title'];
+		}
+		if(isset($_POST['page'])){
+			$page = $_POST['page'];
+		}
+
+		if (!Validator::isNumber($page) || $page < 1) {
+			$page = 1;
+		}
 		$db = DP::getInstant();
 		$patternSrv = new PatternService($db);
 		$limit = 10;
-		$offset = 0;
-		$title = $_POST['title'];
-		$rs = $patternSrv->search($title, $limit, $offset);
-// 		echo json_encode($rs);
+		$offset = ($page -1) * $limit;
+
+		$rs = $patternSrv->search($param, $limit, $offset);
+		$totalPage = ceil($rs['count']/$limit);
+		$nextPage = -1;
+		if($totalPage > $page) {
+			$nextPage = $page + 1;
+		}
+		
+		$rs ['title'] = $param;
+		$rs['nextPage'] = $nextPage;
+		echo json_encode($rs);
+	});
+	
+	// Edit
+	Flight::route ('/api/pattern/edit', function() {
+		$db = DP::getInstant();
+		$patternSrv = new PatternService($db);
+		$api = new PatternApi($patternSrv);
+		$rs = $api->edit($_POST);
+		echo json_encode($rs);
 	});
 	
 	Flight::start();

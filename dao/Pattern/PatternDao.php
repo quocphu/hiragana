@@ -67,6 +67,7 @@ class PatternDao extends BaseDao {
 	 */
 	public function search($title, $limit, $offset, $orderby, $order="asc"){
 		$sql = $this->getSql(__FUNCTION__);
+		
 		$rs = $this->db->selectObject($sql, "PatternSearchEntity", array("title"=>$title, "limit"=>$limit, "offset"=>$offset, "orderby"=>$orderby, "order"=>$order));
 		return $rs;
 	}
