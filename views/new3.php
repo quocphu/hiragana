@@ -1,5 +1,5 @@
-{include file="header.tpl.php" body_class="index" root=".."}
-{include file="menu.tpl.php"  css_class="alt reveal"  nav_class="alt reveal" param=""}
+{extends file='templates/main.tpl.php'}
+{block name=main}
 <div class="main">
 		<div class="wrap">
 			<div class="create-main">
@@ -49,4 +49,4 @@
 		});
 	});
 </script>
-{include file="footer.tpl.php"}
+{/block}

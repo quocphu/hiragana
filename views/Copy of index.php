@@ -1,6 +1,6 @@
-{extends file='templates/main.tpl.php'}
-{block name=main}
-  
+{include file="header.tpl.php"  body_class="index" root=""}
+{include file="menu.tpl.php"  css_class="alt reveal"  nav_class="alt reveal"  param=""}
+
 <div class="main">
 		<div class="wrap">
 			<h1>Moi nhat</h1>
@@ -35,4 +35,4 @@
 			searchNew(url, param);
 		});
 	</script>
-{/block}
+{include file="footer.tpl.php" root=".."}

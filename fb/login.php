@@ -1,6 +1,6 @@
 <?php 
 	session_start();
-	require_once("../dao/config.properties");
+	require_once("../config/config.properties");
 	require_once("../autoload.php");
 	
 	use Facebook\FacebookSession;
@@ -8,7 +8,7 @@
 	use Facebook\FacebookRequest;
 	use Facebook\GraphUser;
 	FacebookSession::setDefaultApplication(FBID, FBS);
-		$redirect_url = ("http://localhost:8888/fb/callback.php");
+	$redirect_url = ("http://localhost:8888/fb/callback.php");
 	$helper = new FacebookRedirectLoginHelper($redirect_url);
 ?>
 <!DOCTYPE html>

@@ -1,19 +1,26 @@
 <?php
+
 	require 'flight/Flight.php';
 	require 'libs/Smarty.class.php';
 	require_once 'common/Common.php';
 	require_once 'common/Plog.php';
 	require_once 'common/Validator.php';
 	require_once 'config/message.properties';
+	Common::include_all('dto/');
+	Common::include_all('entities/');
 	Common::include_all('dao');
 	Common::include_all('dao/Pattern/');
 	Common::include_all('dao/PatternDetail/');
 	Common::include_all('dao/PatternColumn/');
 	Common::include_all('services/');
 	Common::include_all('api/');
-	Common::include_all('entities/');
-	Common::include_all('dto/');
 	session_start();
+	
+	use Facebook\FacebookSession;
+	use Facebook\FacebookRedirectLoginHelper;
+	use Facebook\FacebookRequest;
+	use Facebook\GraphUser;
+	
 	// Register Smarty as the view class
 	// Also pass a callback function to configure Smarty on load
 	Flight::register('view', 'Smarty', array(), function($smarty){
@@ -25,6 +32,14 @@
 	
 	// Override render method
 	Flight::map('render', function($template, $data){
+		
+		// Set init value
+		FacebookSession::setDefaultApplication(FBID, FBS);
+		$helper = new FacebookRedirectLoginHelper(REDIRECT_URL);
+		$data['loginUrl']= $helper->getLoginUrl();
+		$data['appId']= FBID;
+		
+		// Override render
 	    Flight::view()->assign($data);
 	    Flight::view()->display($template);
 	
@@ -44,7 +59,7 @@
 		$pattern = $patternSrv->getById($id, true);
 		$ptnDto = Common::convertPattern($pattern);
 		
-		Flight::render('./views/detail.php', array('title' => "Detail", 'pattern'=>json_encode($ptnDto)));
+		Flight::render('./views/detail.php', array('title' => $pattern->info->title, 'pattern'=>json_encode($ptnDto)));
 	});
 	
 	// Create new pattern step 1
@@ -132,6 +147,42 @@
 		Flight::render('./views/search.php', array('title' => "Tim kiem", 'searchResult'=>$rs['data'], 'param' => $param, 'nextPage'=>$nextPage));
 	});
 	
+	// FB handler
+	Flight::route ('/fb/login', function() {
+		//echo 'FB login';
+		FacebookSession::setDefaultApplication(FBID, FBS);
+		
+		$helper = new FacebookRedirectLoginHelper(REDIRECT_URL);
+		$session = null;
+		try {
+			$session = $helper->getSessionFromRedirect();
+		} catch(\Exception $ex) {
+			// When validation fails or other local issues
+			// 		print_r($ex);
+		}
+		
+		if ($session) {
+			// Logged in.
+		
+			$_SESSION['fb_token'] =$session->getToken();
+		
+			$user_profile = (new FacebookRequest(
+					$session, 'GET', '/me'
+			))->execute()->getGraphObject(GraphUser::className());
+		
+			// 	    echo "Name: " . $user_profile->getName();
+			//print_r($user_profile);
+		}
+		
+		if(isset($_SESSION['PREV_URL'])){
+			Flight::redirect($_SESSION['PREV_URL']);
+		} else {
+			Flight::redirect('/');
+		}
+		
+	});
+	
+	
 	// API
 	// Api Get new pattern
 	Flight::route ('/api/pattern/getNew', function() {
@@ -206,5 +257,12 @@
 		echo json_encode($rs);
 	});
 	
+	// Global var
+	Flight::route ('/api/globalvar', function() {
+		$name = $_POST['name'];
+		$value = $_POST['value'];
+		$_SESSION[$name] = $value;
+		echo Flight::get('PREV_URL');
+	});
 	Flight::start();
 ?>

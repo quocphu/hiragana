@@ -445,9 +445,20 @@ function edit(d) {
 					}
 				}
 			} else if(rs.valid == 1) {
-//				window.location.href = '/new/4';
 				location.reload(true);
 			}
 		});
+	});
+	
+}
+
+// SESSION
+function setSession(key, value){
+	$.ajax({
+		type: 'POST',
+		url: '/api/globalvar',
+		data: {'name': key, 'value':value}
+	}).done(function(data){
+		//
 	});
 }

@@ -21,7 +21,7 @@
 //    print_r ($user);
 
 	session_start();
-	require_once("../dao/config.properties");
+	require_once("../config/config.properties");
 	require_once("../autoload.php");
 	
 	use Facebook\FacebookSession;
@@ -49,7 +49,7 @@
 	    ))->execute()->getGraphObject(GraphUser::className());
 	
 // 	    echo "Name: " . $user_profile->getName();
-// 	    print_r($user_profile);
+	    print_r($user_profile);
 	}
 	header("Location: http://localhost:8888/fb/login.php");
 	die();

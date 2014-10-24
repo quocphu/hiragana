@@ -7,9 +7,11 @@
 <link type="text/css" rel="stylesheet" href="{$root}/css/reset.css">
 <link type="text/css" rel="stylesheet" href="{$root}/css/style.css">
 <script type="text/javascript" src="{$root}/js/jquery.min.js"></script>
-<script type="text/javascript" src="{$root}/js/startup.js"></script>
 <script type="text/javascript" src="{$root}/js/numeral.min.js"></script>
 <script type="text/javascript" src="{$root}/js/moment.min.js"></script>
-
+<script type="text/javascript">
+	var gbAppId = {$appId};
+</script>
+<script type="text/javascript" src="{$root}/js/startup.js"></script>
 </head>
 <body class={$body_class}>
