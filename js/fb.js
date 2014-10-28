@@ -11,9 +11,12 @@ function login(url) {
 		  window.fbAsyncInit = function() {
 		      FB.init({
 		        appId      : gbAppId,
-		        xfbml      : true,
+		        status     : true,                                 // Check Facebook Login status
+		        xfbml      : true,                                  // Look for social plugins on the page
+		        cookie     : true,
 		        version    : 'v2.1'
 		      });
+		      
 		  	$('#btnLogin a').off('click').on('click', function(e){
 		  		e.preventDefault();
 		  		setSession('PREV_URL', location.href);
@@ -21,27 +24,39 @@ function login(url) {
       	 	});
 		      FB.getLoginStatus(function(response) {
 		    	  $('#main-avatar>img').remove();
+		    	  var accessToken = '';
 		    	  if (response.status === 'connected') {
 		    		  var uid = response.authResponse.userID;
-		    		  var accessToken = response.authResponse.accessToken;
-		      	    
+		    		  accessToken = response.authResponse.accessToken;
+
 		    		  FB.api("/me/picture?width=30&height=30",  function(response) {
 		  	    	      var img = $('<img src="'+response.data.url+'">');
 		  	    	      
 		  	    	      $('#main-avatar').append(img);
-		  	    	});
+		  	    		});
 		  	    	 
-		      	 	$('#btnLogin a').html('Đăng xuất');
-		      	 	$('#btnLogin a').off('click').on('click', function(e){
-		      	 		e.preventDefault();
-		      	 		FB.logout(function(response) {
-		      	 			location.reload(true);
-		      	 		});
-		      	 	});
+		    		  	$('#btnLogin a').html('Đăng xuất');
+		    		  	$('#btnLogin a').off('click').on('click', function(e){
+			      	 		e.preventDefault();
+			      	 		FB.logout(function(response) {
+			      	 			checkToken('');
+			      	 			location.reload(true);
+			      	 		});
+		    		  	});
 		      	  } else {
-		      		  $('#btnLogin a').html('Đăng nhập bằng Facebook');
-		      		  $('#btnLogin a').attr('href', $('#loginUrl').val());
+		      		  	$('#btnLogin a').html('Đăng nhập bằng Facebook');
+		      		  	$('#btnLogin a').attr('href', $('#loginUrl').val());
 		      	  }
+		    	  checkToken(accessToken);
 		  	});
 		  };
+		  function checkToken(token) {
+			  $.ajax({
+	  	  			type: 'POST',
+	  	  			url: '/api/checkToken',
+	  	  			data: {'token': token}
+	  	  		}).done(function(data){
+//	  	  			console.log(data);
+	  	  		});
+		  }
 }

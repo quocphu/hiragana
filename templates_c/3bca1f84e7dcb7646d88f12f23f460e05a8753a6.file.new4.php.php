@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-10-21 10:01:18
+<?php /* Smarty version Smarty-3.1.19, created on 2014-10-28 09:35:41
          compiled from "views/new4.php" */ ?>
 <?php /*%%SmartyHeaderCode:993354903543f4b4d5e3d20-12047336%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,13 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '3bca1f84e7dcb7646d88f12f23f460e05a8753a6' => 
     array (
       0 => 'views/new4.php',
-      1 => 1413455131,
+      1 => 1414126052,
+      2 => 'file',
+    ),
+    'bfb5bf6d529a1de2057e120d97a8626aa9ef7fad' => 
+    array (
+      0 => 'templates/main.tpl.php',
+      1 => 1414125299,
       2 => 'file',
     ),
   ),
@@ -19,9 +25,11 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   'unifunc' => 'content_543f4b4d653cc3_47244280',
   'has_nocache_code' => false,
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_543f4b4d653cc3_47244280')) {function content_543f4b4d653cc3_47244280($_smarty_tpl) {?><?php echo $_smarty_tpl->getSubTemplate ("header.tpl.php", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array('body_class'=>"index",'root'=>".."), 0);?>
+<?php if ($_valid && !is_callable('content_543f4b4d653cc3_47244280')) {function content_543f4b4d653cc3_47244280($_smarty_tpl) {?><?php echo $_smarty_tpl->getSubTemplate ("header.tpl.php", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array('body_class'=>"index",'root'=>''), 0);?>
 
 <?php echo $_smarty_tpl->getSubTemplate ("menu.tpl.php", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array('css_class'=>"alt reveal",'nav_class'=>"alt reveal",'param'=>''), 0);?>
+
+
 
 <div class="main">
 		<div class="wrap">
@@ -51,6 +59,8 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 			
 		});
 	</script>
-<?php echo $_smarty_tpl->getSubTemplate ("footer.tpl.php", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array(), 0);?>
+
+
+<?php echo $_smarty_tpl->getSubTemplate ("footer.tpl.php", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array('root'=>".."), 0);?>
 
 <?php }} ?>

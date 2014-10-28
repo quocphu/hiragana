@@ -4,6 +4,7 @@ class PatternSearchEntity {
 	public $title;
 	public $authorName;
 	public $authorId;
+	public $fbId;
 	public $createDate;
 	public $itemCount;
 	public $views;

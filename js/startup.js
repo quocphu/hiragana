@@ -137,8 +137,12 @@ function split(contents, wordSerapator){
 }
 
 // Add event for delete button
-function addDeleteButtonEvent(table){
+function addDeleteButtonEvent(table, limitRow){
 	table.find('.delete').off('click').on('click', function(){
+		if(table.find('.delete').length < 2) {
+			alert('so dong phai lon hon 1');
+			return;
+		}
 		var del = confirm("Ban muon xoa?");
 		if(del){
 			$(this).closest('tr').remove();
@@ -217,11 +221,11 @@ function search(para){
 		data: para
 	}).done(function(data) {
 		rs = $.parseJSON(data);
-		//rs = $.parseJSON('{"count":"24","data":[{"id":"18","title":"column 11","authorName":"fb Name","authorId":"1","createDate":"2014-10-22 15:13:07","itemCount":"22.0000","views":"0","columnSize":"3"},{"id":"19","title":"column 11","authorName":"fb Name","authorId":"1","createDate":"2014-10-22 15:13:07","itemCount":"22.0000","views":"0","columnSize":"3"},{"id":"20","title":"column 11","authorName":"fb Name","authorId":"1","createDate":"2014-10-22 15:13:07","itemCount":"22.0000","views":"0","columnSize":"3"},{"id":"21","title":"column 11","authorName":"fb Name","authorId":"1","createDate":"2014-10-22 15:13:07","itemCount":"22.0000","views":"0","columnSize":"3"},{"id":"22","title":"column 11","authorName":"fb Name","authorId":"1","createDate":"2014-10-22 15:13:07","itemCount":"22.0000","views":"0","columnSize":"3"},{"id":"23","title":"column 11","authorName":"fb Name","authorId":"1","createDate":"2014-10-22 15:13:07","itemCount":"22.0000","views":"0","columnSize":"3"},{"id":"24","title":"column 11","authorName":"fb Name","authorId":"1","createDate":"2014-10-22 15:13:07","itemCount":"22.0000","views":"0","columnSize":"3"},{"id":"25","title":"column 11","authorName":"fb Name","authorId":"1","createDate":"2014-10-22 15:13:07","itemCount":"22.0000","views":"0","columnSize":"3"},{"id":"26","title":"dong tu bat quy tac tieng anh cap nhat [hieb","authorName":"fb Name","authorId":"1","createDate":"2014-10-22 15:13:07","itemCount":"3.0000","views":"0","columnSize":"3"},{"id":"27","title":"column 11","authorName":"fb Name","authorId":"1","createDate":"2014-10-22 15:13:07","itemCount":"5.0000","views":"0","columnSize":"5"}],"title":"","nextPage":3}');
 		var item = $('.list-pattern>li:nth(0)');
 		for (var i = 0; i< rs.data.length; i++) {
-			$('.list-pattern').find('li[id="'+rs.data[i].id+'"]').remove();
+			$('.list-pattern').find('li[id="' + rs.data[i].id + '"]').remove();
 			var newItem = item.clone();
+			getAvatar(rs.data[i].fbId, newItem.find('.avatar'));
 			newItem.find('h3 a').attr('href', '/detail/' + rs.data[i].id).html(rs.data[i].title);
 			newItem.find('li:eq(0)').html(rs.data[i].authorName);
 			newItem.find('li:eq(1)').html(rs.data[i].createDate);
@@ -246,9 +250,11 @@ function searchNew(url, para){
 		rs = $.parseJSON(data);
 		var item = $('.list-pattern>li:nth(0)');
 		$('.list-pattern>li').remove();
+		
+		;
 		for (var i = 0; i< rs.data.length; i++) {
-			
 			var newItem = item.clone();
+			getAvatar(rs.data[i].fbId, newItem.find('.avatar'));
 			newItem.find('h3 a').attr('href', '/detail/' + rs.data[i].id).html(rs.data[i].title);
 			newItem.find('li:eq(0)').html(rs.data[i].authorName);
 			newItem.find('li:eq(1)').html(rs.data[i].createDate);
@@ -327,6 +333,20 @@ function nextButton2() {
 			alert('So cot du lieu lon hon so cot da tao');
 			return;
 		}
+		
+		if(form.find('tr').length < 2) {
+			alert('so dong phai > 1');
+		}
+		
+		// Rename input
+		form.find('tr').each(function(idx, el){
+			$(el).attr('row', idx-1)
+			$(el).find('input[type="text"]').each(function(idx2, el){
+				$(this).attr('name', 'column' + (idx-1) + '' + (idx2))
+			})
+			
+		});
+		
 		
 		$.ajax({
 			type: 'POST',
@@ -431,6 +451,23 @@ function edit(d) {
 	// Add next button event
 	$('#btnNext').on('click', function(){
 		var form = $('form[name="edit"]');
+		
+		// Check input here
+		// If no row
+		if(form.find('tr').length < 2){
+			alert('so dong phai > 1');
+		}
+		
+		// Rename input
+		form.find('tr').each(function(idx, el){
+			$(el).attr('row', idx-1)
+			$(el).find('input[type="text"]').each(function(idx2, el){
+				$(this).attr('name', 'column' + (idx-1) + '' + (idx2))
+			})
+			
+		});
+		
+		// Call ajax
 		$.ajax({
 			type: 'POST',
 			url: '/api/pattern/edit',
@@ -460,5 +497,19 @@ function setSession(key, value){
 		data: {'name': key, 'value':value}
 	}).done(function(data){
 		//
+	});
+}
+
+function getAvatar(id, el){
+	$.ajax({
+		type : 'get',
+		url : 'http://graph.facebook.com/' + id + '/picture?redirect=0&height=50&width=50&type=normal'
+	}).done(function(data) {
+		var _img = el.find('img')[0];
+		var newImg = new Image;
+		newImg.onload = function() {
+		    _img.src = this.src;
+		}
+		newImg.src = data.data.url;
 	});
 }

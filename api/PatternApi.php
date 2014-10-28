@@ -167,6 +167,7 @@ class PatternApi {
 		$result['error'] = $error;
 		return $result;
 	}
+	
 	public function edit($data) {
 		$error = array();
 		// Old data
@@ -180,7 +181,7 @@ class PatternApi {
 		// Current data
 		$crt = $this->service->getById($id, true);
 		
-		if($crt == null) {
+		if(is_null($crt)) {
 			$error[] = "not_exist";
 			return ['valid' => 0, 'error'=>$error];
 		}

@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-10-24 06:40:09
+<?php /* Smarty version Smarty-3.1.19, created on 2014-10-27 04:22:25
          compiled from "views/search.php" */ ?>
 <?php /*%%SmartyHeaderCode:1574358447543f83d858a1b7-93042694%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '01ed9975ec9da14017925111adf46608f73ce480' => 
     array (
       0 => 'views/search.php',
-      1 => 1414125605,
+      1 => 1414375981,
       2 => 'file',
     ),
     'bfb5bf6d529a1de2057e120d97a8626aa9ef7fad' => 
@@ -41,6 +41,7 @@ foreach ($_from as $_smarty_tpl->tpl_vars['p']->key => $_smarty_tpl->tpl_vars['p
 $_smarty_tpl->tpl_vars['p']->_loop = true;
 ?>
 			    <li id="<?php echo $_smarty_tpl->tpl_vars['p']->value->id;?>
+" fbid="<?php echo $_smarty_tpl->tpl_vars['p']->value->fbId;?>
 ">
 					<h3><a href="/detail/<?php echo $_smarty_tpl->tpl_vars['p']->value->id;?>
 "><?php echo $_smarty_tpl->tpl_vars['p']->value->title;?>
@@ -73,11 +74,16 @@ $_smarty_tpl->tpl_vars['p']->_loop = true;
 	</div>
 	
 	<script>
+		// More result
 		$('#nextPage').off('click').on('click', function(e){
 			e.preventDefault();
 			search({'title':$(this).attr('param'), 'page':$(this).attr('page')});
 		});
-	
+
+		// Load avatar (run only one when page load)
+		$('.list-pattern>li').each(function(idx, el){
+			getAvatar($(el).attr('fbid'), $(el).find('.avatar'));
+		});
 	</script>
 	
 

@@ -5,7 +5,7 @@
 			<h1>Moi nhat</h1>
 			<ul class="list-pattern">
 				{foreach $searchResult as $p}
-			    <li id="{$p->id}">
+			    <li id="{$p->id}" fbid="{$p->fbId}">
 					<h3><a href="/detail/{$p->id}">{$p->title}</a></h3>
 					<div class="detail">
 						<div class="avatar">
@@ -29,11 +29,16 @@
 	</div>
 	{literal}
 	<script>
+		// More result
 		$('#nextPage').off('click').on('click', function(e){
 			e.preventDefault();
 			search({'title':$(this).attr('param'), 'page':$(this).attr('page')});
 		});
-	
+
+		// Load avatar (run only one when page load)
+		$('.list-pattern>li').each(function(idx, el){
+			getAvatar($(el).attr('fbid'), $(el).find('.avatar'));
+		});
 	</script>
 	{/literal}
 {/block}

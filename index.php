@@ -12,14 +12,17 @@
 	Common::include_all('dao/Pattern/');
 	Common::include_all('dao/PatternDetail/');
 	Common::include_all('dao/PatternColumn/');
+	Common::include_all('dao/Account/');
 	Common::include_all('services/');
 	Common::include_all('api/');
-	session_start();
+	
 	
 	use Facebook\FacebookSession;
 	use Facebook\FacebookRedirectLoginHelper;
+	use Facebook\FacebookJavaScriptLoginHelper;
 	use Facebook\FacebookRequest;
 	use Facebook\GraphUser;
+	session_start();
 	
 	// Register Smarty as the view class
 	// Also pass a callback function to configure Smarty on load
@@ -38,7 +41,6 @@
 		$helper = new FacebookRedirectLoginHelper(REDIRECT_URL);
 		$data['loginUrl']= $helper->getLoginUrl();
 		$data['appId']= FBID;
-		
 		// Override render
 	    Flight::view()->assign($data);
 	    Flight::view()->display($template);
@@ -93,15 +95,37 @@
 		$_SESSION[STEP1] = null;
 		
 		Flight::render('./views/new4.php', array('title' => "Step4", 'data'=>$json));
-		
 	});
 	
 	// Edit
 	Flight::route ('/edit/@id', function($id) {
-		$db = DP::getInstant();
-		$patternSrv = new PatternService($db);
+		$valid = 1;
+		
+		// Check data
+		if(!Validator::isNumber($id)){
+			throw new Exception('id ko dung', 500, null);
+		}
+		
+		// Check login status
+		if(!isset($_SESSION[FB_TOKEN]) || is_null($_SESSION[FB_TOKEN])) {
+			Flight::render('./views/error.php', array('title' => "chua login"));
+			return;
+		}
+		
+		// DB info
+		$dp = DP::getInstant();
+		$patternSrv = new PatternService($dp);
 		$ptn = $patternSrv->getById($id, true);
-		if($ptn != null) {
+		
+		$accountSrv = new AccountService($dp);
+		$account = $accountSrv->getByFbId($_SESSION[FB_UID]); 
+		
+		if(is_null($account) || is_null($ptn) || $account->id != $ptn->info->accountid) {
+			Flight::render('./views/error.php', array('title' => "KO co quyen"));
+			return;
+		}
+		
+		if(!is_null($ptn)) {
 			$_SESSION[CURRENT_EDIT] = $ptn;
 			$json = json_encode(Common::convertPattern($ptn));
 			$para = array (
@@ -109,13 +133,12 @@
 						'data' => $json, 
 						'rowNum' => $ptn->info->columnsize, 
 						'id' => $ptn->info->id,
-						'patternTitle' =>$ptn->info->title,
+						'patternTitle' => $ptn->info->title,
 						'updateTime' => $ptn->info->update_date
 					);
 			
 			Flight::render('./views/edit.php', $para);
 		}
-		
 	});
 	
 	// Search
@@ -156,30 +179,42 @@
 		$session = null;
 		try {
 			$session = $helper->getSessionFromRedirect();
-		} catch(\Exception $ex) {
+		} catch(Exception $ex) {
 			// When validation fails or other local issues
-			// 		print_r($ex);
+			PLog::log($ex);
 		}
 		
-		if ($session) {
-			// Logged in.
+		if (!is_null($session)) {
 		
-			$_SESSION['fb_token'] =$session->getToken();
+			// Get fb information
+			$userProfile = (new FacebookRequest($session, 'GET', '/me'))->execute()->getGraphObject(GraphUser::className());
 		
-			$user_profile = (new FacebookRequest(
-					$session, 'GET', '/me'
-			))->execute()->getGraphObject(GraphUser::className());
-		
-			// 	    echo "Name: " . $user_profile->getName();
-			//print_r($user_profile);
+			$fbName = $userProfile->getName();
+			$fbId = $userProfile->getId();
+
+			// Get account from database
+			$db = DP::getInstant();
+			$accountSrv = new AccountService($db);
+			$account = $accountSrv->getByFbId($fbId);
+			
+			// Insert into database If account not exist
+			if(is_null($account)){
+				$account = new Account();
+				$account->fbId = $fbId;
+				$account->fbName = $fbName;
+				$accountSrv->insert($account);
+			}
+			
+			$_SESSION[FB_TOKEN] = $session->getToken();
+			$_SESSION[FB_UID] = $fbId;
 		}
 		
+		// Redirect to specified page
 		if(isset($_SESSION['PREV_URL'])){
 			Flight::redirect($_SESSION['PREV_URL']);
 		} else {
 			Flight::redirect('/');
 		}
-		
 	});
 	
 	
@@ -254,6 +289,7 @@
 		$patternSrv = new PatternService($db);
 		$api = new PatternApi($patternSrv);
 		$rs = $api->edit($_POST);
+// 		PLog::log($rs);
 		echo json_encode($rs);
 	});
 	
@@ -261,8 +297,66 @@
 	Flight::route ('/api/globalvar', function() {
 		$name = $_POST['name'];
 		$value = $_POST['value'];
-		$_SESSION[$name] = $value;
-		echo Flight::get('PREV_URL');
+		if($name == 'PREV_URL') {
+			$_SESSION[$name] = $value;
+			echo Flight::get('PREV_URL');
+		}
 	});
+	
+	// Global var
+	Flight::route ('/api/checkToken', function() {
+		
+		$valid = 1;
+		// Token is exist
+// 		if(isset($_SESSION[FB_TOKEN]) && !is_null($_SESSION[FB_TOKEN])) {
+// 			echo $valid;
+// 			return;
+// 		}
+		
+		// Check parameter
+		$token = null;
+		if(isset($_POST['token'])){
+			$token = $_POST['token'];
+		}
+		
+		if(is_null($token)){
+			$valid = 0;
+			echo $valid;
+			return;
+		}
+		
+		FacebookSession::setDefaultApplication(FBID, FBS);
+		$session = new FacebookSession($token);
+		try {
+			$session->validate();
+			$valid = 1;
+		} catch (Exception $ex) {
+			$valid = 0;
+		}
+		
+		if($valid == 1) {
+			// Get fb information
+			$userProfile = (new FacebookRequest($session, 'GET', '/me'))->execute()->getGraphObject(GraphUser::className());
+			$fbId = $userProfile->getId();
+			
+			// Session
+			$_SESSION[FB_TOKEN] = $token;
+			$_SESSION[FB_UID] = $fbId;
+		} else {
+			$_SESSION[FB_TOKEN] = null;
+			$_SESSION[FB_UID] = null;
+		}
+		
+		echo 'token '.$_SESSION[FB_TOKEN];
+		echo $valid;
+	});
+	
+	// Error page
+	Flight::route ('/error', function() {
+		
+		Flight::render('./views/error.php', array('title' => "Step4"));
+	
+	});
+	
 	Flight::start();
 ?>

@@ -6,6 +6,7 @@ select
 	DATE_FORMAT(dt.create_date, '%d-%m-%Y') as createDate,
 	dt.accountid as authorId,
 	ac.fbname as authorName,
+	ac.fbId,
 	(select count(*)/dt.columnSize from pattern_detail where patternid = dt.id) as itemCount
 from
 	(

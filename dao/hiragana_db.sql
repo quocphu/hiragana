@@ -31,6 +31,7 @@ create table account (
 	uid character varying (100),
 	pwd character varying(500),
 	fbid character varying(100),
-	fbName character varying(500)
+	fbName character varying(500),
+	create_date timestamp
 	
 );

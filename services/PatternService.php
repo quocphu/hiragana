@@ -5,8 +5,8 @@ class PatternService {
 	private $patternDao;
 	private $patternDetailDao;
 	private $patternHeaderDao;
-	private $studentDao;
 	private $dp;
+	
 	public function __construct($dp) {
 		$this->patternDao = new PatternDao ( $dp );
 		$this->patternDetailDao = new PatternDetailDao($dp);
@@ -199,6 +199,21 @@ class PatternService {
 		}	
 		
 		return $updated;
+	}
+	public function checkAccountPattern($patternId, $fbId) {
+		$ptn = $this->patternDao->getById($patternId);
+		$accountSrv = new AccountService($this->dp);
+		$account = $accountSrv->getByFbId($fbId);
+		
+		if(is_null($ptn) || is_null($account)) {
+			return 0;
+		}
+		
+		if($ptn->accountid == $account->id){
+			return 1;
+		}
+
+		return 0;
 	}
 }
 ?>
