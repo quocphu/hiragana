@@ -29,5 +29,10 @@ class Common {
 		}
 		return $ptnDto;
 	}
+	
+	public static function getTitle($title) {
+		return $title. ' | ' . UI_TITLE ;
+	}
+	
 }
 ?>

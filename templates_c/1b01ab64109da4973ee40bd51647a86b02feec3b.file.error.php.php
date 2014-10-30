@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-10-27 09:32:21
+<?php /* Smarty version Smarty-3.1.19, created on 2014-10-30 10:11:17
          compiled from "views/error.php" */ ?>
 <?php /*%%SmartyHeaderCode:1094272875544e0156eddc08-42057319%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,13 +7,13 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '1b01ab64109da4973ee40bd51647a86b02feec3b' => 
     array (
       0 => 'views/error.php',
-      1 => 1414398732,
+      1 => 1414660274,
       2 => 'file',
     ),
     'bfb5bf6d529a1de2057e120d97a8626aa9ef7fad' => 
     array (
       0 => 'templates/main.tpl.php',
-      1 => 1414125299,
+      1 => 1414574948,
       2 => 'file',
     ),
   ),
@@ -29,10 +29,17 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 
 <?php echo $_smarty_tpl->getSubTemplate ("menu.tpl.php", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array('css_class'=>"alt reveal",'nav_class'=>"alt reveal",'param'=>''), 0);?>
 
+<div class="frame">
 
-
-  <h1>Loi roi</h1>
-  <input id="post" value="test" type="button"/>
+  
+  <?php  $_smarty_tpl->tpl_vars['msg'] = new Smarty_Variable; $_smarty_tpl->tpl_vars['msg']->_loop = false;
+ $_from = $_smarty_tpl->tpl_vars['error']->value; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array');}
+foreach ($_from as $_smarty_tpl->tpl_vars['msg']->key => $_smarty_tpl->tpl_vars['msg']->value) {
+$_smarty_tpl->tpl_vars['msg']->_loop = true;
+?>
+  	<h1><?php echo $_smarty_tpl->tpl_vars['msg']->value;?>
+</h1>
+  <?php } ?>
   
   	<script>
   	$('#post').click(function(){
@@ -50,7 +57,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   	</script>
   
 
-
+</div>
 <?php echo $_smarty_tpl->getSubTemplate ("footer.tpl.php", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array('root'=>".."), 0);?>
 
 <?php }} ?>

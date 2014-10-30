@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-10-24 10:11:31
+<?php /* Smarty version Smarty-3.1.19, created on 2014-10-30 08:40:37
          compiled from "./templates/header.tpl.php" */ ?>
 <?php /*%%SmartyHeaderCode:17631406365417961966cf91-42568171%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'b6d024528e2a409d7809ab579aeff15c17ca5c92' => 
     array (
       0 => './templates/header.tpl.php',
-      1 => 1414138271,
+      1 => 1414654834,
       2 => 'file',
     ),
   ),
@@ -37,12 +37,12 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 /css/reset.css">
 <link type="text/css" rel="stylesheet" href="<?php echo $_smarty_tpl->tpl_vars['root']->value;?>
 /css/style.css">
+<link type="text/css" rel="stylesheet" href="<?php echo $_smarty_tpl->tpl_vars['root']->value;?>
+/css/table.css">
 <script type="text/javascript" src="<?php echo $_smarty_tpl->tpl_vars['root']->value;?>
 /js/jquery.min.js"></script>
 <script type="text/javascript" src="<?php echo $_smarty_tpl->tpl_vars['root']->value;?>
 /js/numeral.min.js"></script>
-<script type="text/javascript" src="<?php echo $_smarty_tpl->tpl_vars['root']->value;?>
-/js/moment.min.js"></script>
 <script type="text/javascript">
 	var gbAppId = <?php echo $_smarty_tpl->tpl_vars['appId']->value;?>
 ;

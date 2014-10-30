@@ -74,5 +74,10 @@ class PatternDao extends BaseDao {
 	public function checkUser($pid, $uid){
 		
 	}
+	
+	public function updateView($id, $count) {
+		$sql = $this->getSql(__FUNCTION__);
+		return $this->db->update($sql, array('id'=>$id, 'count' => $count));
+	}
 }
 ?>

@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-10-27 03:08:47
+<?php /* Smarty version Smarty-3.1.19, created on 2014-10-30 05:44:43
          compiled from "views/edit.php" */ ?>
 <?php /*%%SmartyHeaderCode:1489488516544636540280e1-93709797%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -13,7 +13,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'bfb5bf6d529a1de2057e120d97a8626aa9ef7fad' => 
     array (
       0 => 'templates/main.tpl.php',
-      1 => 1414125299,
+      1 => 1414574948,
       2 => 'file',
     ),
   ),
@@ -29,7 +29,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 
 <?php echo $_smarty_tpl->getSubTemplate ("menu.tpl.php", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array('css_class'=>"alt reveal",'nav_class'=>"alt reveal",'param'=>''), 0);?>
 
-
+<div class="frame">
 
 <div class="main">
 		<div class="wrap">
@@ -71,7 +71,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 	});
 </script>
 
-
+</div>
 <?php echo $_smarty_tpl->getSubTemplate ("footer.tpl.php", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array('root'=>".."), 0);?>
 
 <?php }} ?>

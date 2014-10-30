@@ -1,3 +1,4 @@
+// Add javascript facebook SDK
 (function(d, s, id) {
 	     var js, fjs = d.getElementsByTagName(s)[0];
 	     if (d.getElementById(id)) {return;}
@@ -7,6 +8,7 @@
 	}(document, 'script', 'facebook-jssdk')
 );
 
+// Check login status
 function login(url) {
 		  window.fbAsyncInit = function() {
 		      FB.init({
@@ -22,6 +24,7 @@ function login(url) {
 		  		setSession('PREV_URL', location.href);
 		  		location.href = $(this).attr('href');
       	 	});
+		  	// Check status
 		      FB.getLoginStatus(function(response) {
 		    	  $('#main-avatar>img').remove();
 		    	  var accessToken = '';
@@ -49,14 +52,35 @@ function login(url) {
 		      	  }
 		    	  checkToken(accessToken);
 		  	});
+		      
+		      // Like button event
+//		      FB.Event.subscribe('edge.remove', function (response) {
+//		    	  $.ajax({
+//		  	  			type: 'POST',
+//		  	  			url: '/api/like',
+//		  	  			data: {'url': response, 'type': '1'}
+//		  	  		}).done(function(data){
+//
+//		  	  		});
+//		      });
+//		      
+//		      FB.Event.subscribe('edge.remove', function (response) {
+//			    	  $.ajax({
+//			  	  			type: 'POST',
+//			  	  			url: '/api/like',
+//			  	  			data: {'url': response, 'type': '0'}
+//			  	  		}).done(function(data){
+//	
+//			  	  		});
+//	           });
 		  };
+		  // Check token was created
 		  function checkToken(token) {
 			  $.ajax({
 	  	  			type: 'POST',
 	  	  			url: '/api/checkToken',
 	  	  			data: {'token': token}
 	  	  		}).done(function(data){
-//	  	  			console.log(data);
 	  	  		});
 		  }
 }

@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-10-28 09:35:41
+<?php /* Smarty version Smarty-3.1.19, created on 2014-10-30 02:57:25
          compiled from "views/new4.php" */ ?>
 <?php /*%%SmartyHeaderCode:993354903543f4b4d5e3d20-12047336%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,13 +7,13 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '3bca1f84e7dcb7646d88f12f23f460e05a8753a6' => 
     array (
       0 => 'views/new4.php',
-      1 => 1414126052,
+      1 => 1414581053,
       2 => 'file',
     ),
     'bfb5bf6d529a1de2057e120d97a8626aa9ef7fad' => 
     array (
       0 => 'templates/main.tpl.php',
-      1 => 1414125299,
+      1 => 1414574948,
       2 => 'file',
     ),
   ),
@@ -29,38 +29,66 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 
 <?php echo $_smarty_tpl->getSubTemplate ("menu.tpl.php", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array('css_class'=>"alt reveal",'nav_class'=>"alt reveal",'param'=>''), 0);?>
 
-
+<div class="frame">
 
 <div class="main">
 		<div class="wrap">
 			<div class="create-main">
 				<div class="detail-nav">
 					<ul>
-						<li><a href="#" class="active">row by row</a></li>
-						<li><a href="#">Learn</a></li>
-						<li><a href="#">game</a></li>
-						<li><a href="#">Edit</a></li>
-						<li><a href="#">Delete</a></li>
+<!-- 						<li><a href="#" class="active">row by row</a></li> -->
+<!-- 						<li><a href="#">Learn</a></li> -->
+<!-- 						<li><a href="#">game</a></li> -->
+<!-- 						<li><a href="#">Edit</a></li> -->
+						<li>Tạo mới thành công</li>
 					</ul>
 				</div>
 				<div class="clear"></div>
-				<div class="content over-scroll">
-					<table id="data" class="create">
-					</table>
+				<div class="content">
+					<div class="all CSSTableGenerator">
+						<table id="data" class="create">
+						</table>
+					</div>
 						
-					<input id="btnNext" type="button" value="Next"/>
-					<input id="btnFinish" type="button" value="Finish"/>
+					<input id="btnReNew" type="button" value="Tạo mới"/>
+					<input id="btnDetail" type="button" value="Xem chi tiết"/>
 				</div>
 			</div>
 		</div>
 	</div>
+	<input type="hidden" value="" id="hiddenData"/>
+
 	<script type="text/javascript">
 		$(document).ready(function() {
-			
+			var ptn = $.parseJSON('<?php echo $_smarty_tpl->tpl_vars['data']->value;?>
+');
+// 			console.log(<?php echo $_smarty_tpl->tpl_vars['data']->value;?>
+);
+			var rows = ptn.data;
+			var table = $('table[id="data"]');
+			table.html('');
+			createRow(table, ptn.header, -1, true, false);
+			for (var i = 0; i < rows.length; i++) {
+				createRow(table, rows[i], i, true, false);
+			}
+
+			$('#btnReNew').off('click').on('click', function(){
+				location.href = '/detail/<?php echo $_smarty_tpl->tpl_vars['id']->value;?>
+';
+			});	
+
+			$('#btnReNew').off('click').on('click', function(){
+				location.href = '/new/1';
+			});
+// 			$('#btnDetail').off('click').on('click',funtion(){
+// 				location.href = '/detail/<?php echo $_smarty_tpl->tpl_vars['id']->value;?>
+';
+// 			});	
 		});
 	</script>
+	
 
-
+</div>
 <?php echo $_smarty_tpl->getSubTemplate ("footer.tpl.php", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array('root'=>".."), 0);?>
 
 <?php }} ?>

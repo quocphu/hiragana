@@ -1,14 +1,13 @@
 	<div class="footer">
 
 		<ul class="nav">
-			<li><a href="#">Home</a></li>
-			<li><a href="#">About us</a></li>
-			<li><a href="#">Contact</a></li>
+			<li><a href="/">Trang chủ</a></li>
+			<li><a href="/info">Thông tin</a></li>
+			<li><a href="/contact">Liên hệ</a></li>
 		</ul>
 	<div class="clear"></div>
 		<ul class="copyright">
 			<li>Copyright &copy; 2014</li>
-			<li>Design: <a href="#">abc</a></li>
 		</ul>
 
 	</div>

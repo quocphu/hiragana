@@ -1,7 +1,9 @@
 {extends file='templates/main.tpl.php'}
 {block name=main}
-  <h1>Loi roi</h1>
-  <input id="post" value="test" type="button"/>
+  
+  {foreach $error as $msg}
+  	<h1>{$msg}</h1>
+  {/foreach}
   {literal}
   	<script>
   	$('#post').click(function(){

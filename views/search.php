@@ -2,10 +2,14 @@
 {block name=main}
 <div class="main">
 		<div class="wrap">
-			<h1>Moi nhat</h1>
+			{if $count <= 0}
+			<h1>Không tìm thấy kết quả nào</h1>
+			{else}
+			
+			<h1>Tìm thấy {$count} kết quả</h1>
 			<ul class="list-pattern">
 				{foreach $searchResult as $p}
-			    <li id="{$p->id}" fbid="{$p->fbId}">
+			    <li id="{$p->id}" fbid="{$p->fbId}" class="border">
 					<h3><a href="/detail/{$p->id}">{$p->title}</a></h3>
 					<div class="detail">
 						<div class="avatar">
@@ -22,9 +26,11 @@
 				</li>
 			{/foreach}
 			</ul>
-			{if $nextPage neq -1}
-			<a id="nextPage" href="#" param="{$param}" page="{$nextPage}">More...</a>
 			{/if}
+			{if $nextPage neq -1}
+			<a id="nextPage" href="#" param="{$param}" page="{$nextPage}">Xem thêm...</a>
+			{/if}
+			<input type="hidden" name="param" value="{$param}">
 		</div>
 	</div>
 	{literal}
@@ -39,6 +45,9 @@
 		$('.list-pattern>li').each(function(idx, el){
 			getAvatar($(el).attr('fbid'), $(el).find('.avatar'));
 		});
+
+		// refill search parameter
+		$('form[name="search"]').find('#title').val($('input[name="param"]').val());
 	</script>
 	{/literal}
 {/block}

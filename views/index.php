@@ -3,9 +3,9 @@
   
 <div class="main">
 		<div class="wrap">
-			<h1>Moi nhat</h1>
+			<h1>Mới nhất</h1>
 			<ul class="list-pattern">
-				<li>
+				<li class="border">
 					<h3><a>Neque porro quisquam est qui dolorem ipsum
 						quia dolor sit amet</a></h3>
 					<div class="detail">
@@ -31,8 +31,11 @@
 		$(document).ready(function() {
 			var param = '{$param}';
 			var url = '{$url}';
-
 			searchNew(url, param);
+
+// 			$(".list-pattern").delegate( "li", "click", function() {
+// 				location.href = $(this).find('a').attr('href');
+// 			});
 		});
 	</script>
 {/block}

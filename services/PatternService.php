@@ -49,7 +49,13 @@ class PatternService {
 		try {
 			$this->dp->getDB ()->beginTransaction ();
 			
+			// Change tag of pattern (all column name)
+			$tag = '';
+			foreach ( $pattern->header as $key => $column ) {
+				$tag .= $column->header . ' ';
+			}
 			// Insert pattern;
+			$pattern->info->tag = $tag;
 			$patternId = $this->patternDao->insert ( $pattern->info );
 			$columnIdArr = array ();
 			
@@ -58,6 +64,7 @@ class PatternService {
 				$columnId = $this->patternHeaderDao->insert ( $column );
 				$columnIdArr [] = $columnId;
 			}
+			
 			for($i = 0; $i < count ( $pattern->data ); $i ++) {
 				$detail = $pattern->data [$i];
 				
@@ -66,11 +73,12 @@ class PatternService {
 				$detail->columnid = $columnIdArr [($i % $pattern->info->columnsize)];
 				$this->patternDetailDao->insert ( $detail );
 			}
+			
 			$this->dp->getDB()->commit();
 		} catch ( Exception $ex ) {
 			// Something went wrong rollback!
 			$this->dp->getDB ()->rollBack ();
-			echo $ex->getMessage ();
+			Plog::log($ex->getMessage ());
 		}
 		return $patternId;
 	}
@@ -200,6 +208,13 @@ class PatternService {
 		
 		return $updated;
 	}
+	
+	/**
+	 * Check pattern is created by user
+	 * @param Number $patternId
+	 * @param Number $fbId
+	 * @return Number 0 --> no, 1 --> yes
+	 */
 	public function checkAccountPattern($patternId, $fbId) {
 		$ptn = $this->patternDao->getById($patternId);
 		$accountSrv = new AccountService($this->dp);
@@ -214,6 +229,16 @@ class PatternService {
 		}
 
 		return 0;
+	}
+	
+	// Update views value
+	public function updateView($id, $count) {
+		return $this->patternDao->updateView($id, $count);
+	}
+	
+	// Update views value
+	public function report($id, $count) {
+		return $this->patternDao->report($id, $count);
 	}
 }
 ?>

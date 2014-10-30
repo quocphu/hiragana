@@ -41,6 +41,8 @@
 		$helper = new FacebookRedirectLoginHelper(REDIRECT_URL);
 		$data['loginUrl']= $helper->getLoginUrl();
 		$data['appId']= FBID;
+		$data['logo']= UI_LOGO;
+		$data['uiTitle']= UI_TITLE;
 		// Override render
 	    Flight::view()->assign($data);
 	    Flight::view()->display($template);
@@ -50,53 +52,93 @@
 	// Page
 	// root
 	Flight::route ('/', function() {
-		Flight::render('./views/index.php', array('title' => "trang chu", 'url' => '/api/pattern/getNew', 'param' => ''));
+		Flight::render('./views/index.php', array('title' => Common::getTitle("Trang chủ") , 'url' => '/api/pattern/getNew', 'param' => ''));
 	});
 	
 	// Detail
 	Flight::route ('/detail/@id', function($id) {
-		
-		$db = DP::getInstant();
-		$patternSrv = new PatternService($db);
-		$pattern = $patternSrv->getById($id, true);
-		$ptnDto = Common::convertPattern($pattern);
-		
-		Flight::render('./views/detail.php', array('title' => $pattern->info->title, 'pattern'=>json_encode($ptnDto)));
+// 		if(Validator::isNumber($id)){
+			$db = DP::getInstant();
+			$patternSrv = new PatternService($db);
+			$pattern = $patternSrv->getById($id, true);
+			if(is_null($pattern)){
+				$error = array();
+				$error[] = Validator::validMessage([$id], PTN_NOT_EXIST);
+				$_SESSION[ERROR] = $error;
+				Flight::redirect('/error');
+				
+			}
+			$ptnDto = Common::convertPattern($pattern);
+			
+			Flight::render('./views/detail.php', array('title' =>Common::getTitle($pattern->info->title), 'pattern'=>json_encode($ptnDto)));
+// 		}
 	});
 	
 	// Create new pattern step 1
 	Flight::route ('/new/1', function() {
-		Flight::render('./views/new1.php', array('title' => "Step1"));
+		// Check login status
+		if(!isset($_SESSION[FB_TOKEN]) || is_null($_SESSION[FB_TOKEN])) {
+			$error = array();
+			$error[] = NOT_LOGIN;
+			$_SESSION[ERROR] = $error;
+			$_SESSION['PREV_URL1'] = '/new/1';
+			Flight::redirect('/error');
+		}
+		
+		Flight::render('./views/new1.php', array('title' => Common::getTitle("Bước 1")));
 	});
 	
 	// Create new pattern step 2
 	Flight::route ('/new/2', function() {
-		Flight::render('./views/new2.php', array('title' => "Step2",'rowNum' => $_SESSION[STEP1]->info->columnsize));
+		if(!isset($_SESSION[STEP1])) {
+			Flight::redirect('/new/1');
+		}
+		Flight::render('./views/new2.php', array('title' => Common::getTitle("Bước 2 - Tạo bằng file"),'rowNum' => $_SESSION[STEP1]->info->columnsize));
 	});
 	
 	// Create new pattern step 3
 	Flight::route ('/new/3', function() {
+		if(!isset($_SESSION[STEP1])) {
+			Flight::redirect('/new/1');
+		}
 		$step1Data = $_SESSION[STEP1];
 		$json = json_encode($step1Data);
-		Flight::render('./views/new3.php', array('title' => "Step3", 'data'=>$json, 'rowNum' => $_SESSION[STEP1]->info->columnsize));
+		Flight::render('./views/new3.php', array('title' => Common::getTitle("Bước 2 - Tạo bằng tay"), 'data'=>$json, 'rowNum' => $_SESSION[STEP1]->info->columnsize));
 	});
 	
 	// Create new pattern step 4
 	Flight::route ('/new/4', function() {
+		if(!isset($_SESSION[STEP1])) {
+			Flight::redirect('/new/1');
+		}
+		
 		$step1Data = $_SESSION[STEP1];
-		$json = json_encode($step1Data);
 		
 		// Insert data
 		$db = DP::getInstant();
 		$patternSrv = new PatternService($db);
-		$patternSrv->insert($step1Data);
-		
-		// Empty session
-		$_SESSION[STEP1] = null;
-		
-		Flight::render('./views/new4.php', array('title' => "Step4", 'data'=>$json));
+		$id = $patternSrv->insert($step1Data);
+		$_SESSION['PTN_ID'] = $id;
+		Flight::redirect('/new/5');
 	});
 	
+	Flight::route ('/new/5', function() {
+		if(!isset($_SESSION['PTN_ID'])) {
+			Flight::redirect('/new/1');
+		}
+		
+		$id = $_SESSION['PTN_ID'];
+		
+		// Insert data
+		$db = DP::getInstant();
+		$patternSrv = new PatternService($db);
+		$pattern = $patternSrv->getById($id, true);
+		$ptnDto = Common::convertPattern($pattern);
+		// Empty session
+		$_SESSION[STEP1] = null;
+
+		Flight::render('./views/new4.php', array('title' => 'Bước 3 - Thành công', 'id' => $id, 'data' => json_encode( $ptnDto)));
+	});
 	// Edit
 	Flight::route ('/edit/@id', function($id) {
 		$valid = 1;
@@ -108,8 +150,11 @@
 		
 		// Check login status
 		if(!isset($_SESSION[FB_TOKEN]) || is_null($_SESSION[FB_TOKEN])) {
-			Flight::render('./views/error.php', array('title' => "chua login"));
-			return;
+			$error = array();
+			$error[] = NOT_LOGIN;
+			$_SESSION[ERROR] = $error;
+			$_SESSION['PREV_URL1'] = '/edit/'.$id;
+			Flight::redirect('/error');
 		}
 		
 		// DB info
@@ -121,8 +166,11 @@
 		$account = $accountSrv->getByFbId($_SESSION[FB_UID]); 
 		
 		if(is_null($account) || is_null($ptn) || $account->id != $ptn->info->accountid) {
-			Flight::render('./views/error.php', array('title' => "KO co quyen"));
-			return;
+			$error = array();
+			$error[] = NOT_AUTHORIZE;
+			$_SESSION[ERROR] = $error;
+			Flight::redirect('/error');
+			
 		}
 		
 		if(!is_null($ptn)) {
@@ -167,7 +215,7 @@
 		if($totalPage > $page) {
 			$nextPage = $page + 1;
 		}
-		Flight::render('./views/search.php', array('title' => "Tim kiem", 'searchResult'=>$rs['data'], 'param' => $param, 'nextPage'=>$nextPage));
+		Flight::render('./views/search.php', array('title' => Common::getTitle($param . " | Tìm kiếm") , 'searchResult'=>$rs['data'], 'param' => $param, 'nextPage'=>$nextPage, 'count'=>$rs['count']));
 	});
 	
 	// FB handler
@@ -210,6 +258,12 @@
 		}
 		
 		// Redirect to specified page
+		if(isset($_SESSION['PREV_URL1'])) {
+			$url = $_SESSION['PREV_URL1'];
+			$_SESSION['PREV_URL1'] = null;
+			Flight::redirect($url);
+		}
+		
 		if(isset($_SESSION['PREV_URL'])){
 			Flight::redirect($_SESSION['PREV_URL']);
 		} else {
@@ -217,6 +271,17 @@
 		}
 	});
 	
+	// Page info
+	Flight::route ('/info', function() {
+		Flight::render('./views/info.php', array('title' => "Thông tin"));
+	});
+	
+	// Page contact
+	Flight::route ('/contact', function() {
+		Flight::render('./views/contact.php', array('title' => "Liên hệ"));
+	});
+	
+	//====================================================
 	
 	// API
 	// Api Get new pattern
@@ -239,11 +304,6 @@
 	
 	// Api Check step2
 	Flight::route ('/api/pattern/checkStep2', function() {
-// 		$db = DP::getInstant();
-// 		$patternSrv = new PatternService($db);
-// 		$api = new PatternApi($patternSrv);
-// 		$rs = $api->newPatternStep1($_POST);
-// 	print_r($_POST);
 		$db = DP::getInstant();
 		$patternSrv = new PatternService($db);
 		$api = new PatternApi($patternSrv);
@@ -307,11 +367,6 @@
 	Flight::route ('/api/checkToken', function() {
 		
 		$valid = 1;
-		// Token is exist
-// 		if(isset($_SESSION[FB_TOKEN]) && !is_null($_SESSION[FB_TOKEN])) {
-// 			echo $valid;
-// 			return;
-// 		}
 		
 		// Check parameter
 		$token = null;
@@ -353,10 +408,67 @@
 	
 	// Error page
 	Flight::route ('/error', function() {
-		
-		Flight::render('./views/error.php', array('title' => "Step4"));
+		$error = [];
+		if(isset($_SESSION[ERROR])){
+			$error = $_SESSION[ERROR];
+			$_SESSION[ERROR] = null;
+		} else {
+			$error[] = SYSTEM_ERROR;
+		}
+		Flight::render('./views/error.php', array('title' => Common::getTitle('Lỗi'), 'error' => $error));
 	
 	});
 	
+	
+	// Update like, view, report of pattern
+	Flight::route ('/api/view', function() {
+		$type = $_POST['type'];
+		$url = $_POST['url'];
+		$db = DP::getInstant();
+		$patternSrv = new PatternService($db);
+		$id = explode('/', $url)[2];
+// 		PLog::log(explode('/', $url));
+// 		return;
+
+		switch ($type){
+			case '0':
+				//updateView
+					$patternSrv->updateView($id, 1);
+				break;
+			case '1':
+				// report
+					$patternSrv->report($id, 1);
+				break;
+			case '2':
+				// view
+				echo 2;
+				break;
+			case '3':
+				// report
+				echo 3;
+				break;
+		}
+	});
+	
+	// 404 not found Handling
+	Flight::map('notFound', function(){
+		$error = array();
+		$error[] =  ERROR_404;
+		$_SESSION[ERROR] = $error;
+		Flight::redirect('/error');
+	});
+	// Error Handling
+	Flight::map('error', function(Exception $ex){
+		// Handle error
+		
+		$error = array();
+		$error[] = SYSTEM_ERROR;
+		if(OUT_ERROR) {
+			$error[] = '<pre>'.$ex->getTraceAsString().'</pre>';
+		}
+		
+		$_SESSION[ERROR] = $error;
+		Flight::redirect('/error');
+	});
 	Flight::start();
 ?>

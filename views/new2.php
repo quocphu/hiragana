@@ -3,44 +3,13 @@
 <div class="main">
 		<div class="wrap">
 			<div class="create-main">
-				<div class="detail-nav">
-					<ul>
-						<li><a href="#" class="active">row by row</a></li>
-						<li><a href="#">Learn</a></li>
-						<li><a href="#">game</a></li>
-						<li><a href="#">Edit</a></li>
-						<li><a href="#">Delete</a></li>
-					</ul>
-				</div>
-				<div class="clear"></div>
+				{include file="sub_nav.tpl.php"}
 				<div class="content">
 					<form id="file_upload_form" action="../upload.php"  >
 						<input type="file" id="upload_field" name="upload_field" />
 						<input type="submit" value="Upload" /><span id="msg"></span>
 					</form>
-					<textarea id="file-data" >
-awake	awoke	awoken
-be	was, were	been
-beat	beat	beaten
-become	became	become
-begin	began	begun
-bend	bent	bent
-bet	bet	bet
-bid	bid	bid
-bite	bit	bitten
-blow	blew	blown
-break	broke	broken
-bring	brought	brought
-broadcast	broadcast	broadcast
-build	built	built
-buy	bought	bought
-catch	caught	caught
-choose	chose	chosen
-come	came	come
-cost	cost	cost
-cut	cut	cut
-dig	dug	dug
-do	did	done</textarea>
+					<textarea id="file-data" ></textarea>
 <form name = "step2" action="" method="post">
 	
 	<div class="review">
@@ -61,9 +30,11 @@ do	did	done</textarea>
 	</div>
 	<script type="text/javascript">
 	$(document).ready(function() {
-		review();
+		createStep2();
 		uploadFile();
 		nextButton2();
+		// Change sub menu
+		changeSubNavNew(["Tao moi bang File"],[''], 1);
 	});
 </script>
 {/block}

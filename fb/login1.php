@@ -1,6 +1,6 @@
 <?php
 	session_start();
-	require_once("../dao/config.properties");
+	require_once("../config/config.properties");
 	require_once("../autoload.php");
 	
 	use Facebook\FacebookSession;

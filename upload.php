@@ -1,6 +1,10 @@
 <?php
 	require 'config/config.properties';
 	
+	if(!isset($_FILES['upload_field'])) {
+		return;
+	}
+	
 	$type = $_FILES['upload_field']['type'];
 	$size = $_FILES['upload_field']['size'];
 	$tmpName = $_FILES['upload_field']['tmp_name'];

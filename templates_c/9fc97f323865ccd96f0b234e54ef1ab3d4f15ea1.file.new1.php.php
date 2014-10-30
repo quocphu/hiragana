@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-10-24 06:47:42
+<?php /* Smarty version Smarty-3.1.19, created on 2014-10-29 11:20:13
          compiled from "views/new1.php" */ ?>
 <?php /*%%SmartyHeaderCode:1586432887543b8d3903f8e7-83257802%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,19 +7,19 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '9fc97f323865ccd96f0b234e54ef1ab3d4f15ea1' => 
     array (
       0 => 'views/new1.php',
-      1 => 1414126052,
+      1 => 1414570861,
       2 => 'file',
     ),
     'bfb5bf6d529a1de2057e120d97a8626aa9ef7fad' => 
     array (
       0 => 'templates/main.tpl.php',
-      1 => 1414125299,
+      1 => 1414574948,
       2 => 'file',
     ),
     'e2d031adfce007f3e30b419472f88e1be179c8aa' => 
     array (
       0 => './templates/sub_nav.tpl.php',
-      1 => 1413185486,
+      1 => 1414553767,
       2 => 'file',
     ),
   ),
@@ -35,7 +35,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 
 <?php echo $_smarty_tpl->getSubTemplate ("menu.tpl.php", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array('css_class'=>"alt reveal",'nav_class'=>"alt reveal",'param'=>''), 0);?>
 
-
+<div class="frame">
 
 <div class="main">
 		<div class="wrap">
@@ -43,7 +43,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 				<?php /*  Call merged included template "sub_nav.tpl.php" */
 $_tpl_stack[] = $_smarty_tpl;
  $_smarty_tpl = $_smarty_tpl->setupInlineSubTemplate("sub_nav.tpl.php", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array(), 0, '1586432887543b8d3903f8e7-83257802');
-content_5449d9ee5f4521_59843013($_smarty_tpl);
+content_5450bf5dd7eae7_48587339($_smarty_tpl);
 $_smarty_tpl = array_pop($_tpl_stack); 
 /*  End of included template "sub_nav.tpl.php" */?>
 				<div class="content">
@@ -104,20 +104,19 @@ $_smarty_tpl = array_pop($_tpl_stack);
 		createStep1();
 		nextButton1();
 
-		$('form[name="search"]').on('submit', function(e) {
-			e.preventDefault();
-			alert(1);
-		});
+		
+		// Change sub menu
+		changeSubNavNew(["Tao moi"], [''], 1);
 	});
 </script>
 
-
+</div>
 <?php echo $_smarty_tpl->getSubTemplate ("footer.tpl.php", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array('root'=>".."), 0);?>
 
 <?php }} ?>
-<?php /* Smarty version Smarty-3.1.19, created on 2014-10-24 06:47:42
+<?php /* Smarty version Smarty-3.1.19, created on 2014-10-29 11:20:13
          compiled from "./templates/sub_nav.tpl.php" */ ?>
-<?php if ($_valid && !is_callable('content_5449d9ee5f4521_59843013')) {function content_5449d9ee5f4521_59843013($_smarty_tpl) {?><div class="detail-nav">
+<?php if ($_valid && !is_callable('content_5450bf5dd7eae7_48587339')) {function content_5450bf5dd7eae7_48587339($_smarty_tpl) {?><div class="detail-nav">
 	<ul>
 		<li><a href="#" class="active">Flash card</a></li>
 		<li><a href="#">Learn</a></li>
@@ -126,4 +125,7 @@ $_smarty_tpl = array_pop($_tpl_stack);
 		<li><a href="#">Delete</a></li>
 	</ul>
 </div>
-<div class="clear"></div><?php }} ?>
+<div class="clear"></div>
+<script>
+	subNavActive();
+</script><?php }} ?>

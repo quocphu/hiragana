@@ -1,4 +1,4 @@
-
+// New pattern step1
 function createStep1() {
 	var fName = 'create1';
 	var form = $('form[name="'+fName+'"]');
@@ -28,21 +28,20 @@ function createStep1() {
 	});
 }
 
+// New pattern step2 (by hand)
 function createStep3(d){
 	
 	var size = d.info.columnsize;
 	var data = Array();
-//	if(d.data == null) {
-		for (var i=0; i< 5; i++){
-			var row = Array();
-			for(var j=0; j<size; j++){
-				row[j] = '';
-				
-			}
-			data[i] = row;
-//		}
-		d.data = data;
+
+	for (var i = 0; i < 3; i++) {
+		var row = Array();
+		for (var j = 0; j < size; j++) {
+			row[j] = '';
+		}
+		data[i] = row;
 	}
+	d.data = data;
 		
 	var h = Array();
 	for (var i = 0; i < d.header.length; i++) {
@@ -62,7 +61,7 @@ function createRow(table, rowData, rowNum, isHeader, addDeleteButton){
 	var tr = $('<tr row="' + rowNum + '"></tr>');
 	for(var i = 0; i < rowData.length; i++){
 		if(isHeader){
-			tr.append('<th>'+rowData[i]+'</th>');
+			tr.append('<td>'+rowData[i]+'</td>');
 		}else {
 			tr.append('<td><input name="column' + rowNum + i + '" type="text" value="'+rowData[i]+'"/></td>');
 		}
@@ -73,7 +72,8 @@ function createRow(table, rowData, rowNum, isHeader, addDeleteButton){
 	table.append(tr);
 }
 
-function review() {	
+// New pattern step 2(by file);
+function createStep2() {	
 	var map = {'comma':',', 'space': ' ', 'tab': '\t', 'other':'other'};
 	
 	// Radio button event
@@ -89,15 +89,15 @@ function review() {
 		addDeleteButtonEvent($('.create'));
 	});
 	
-	// Change text event
+	// Change text event (other separator)
 	$('input[name="otherSerapator"]').on('keyup', function(){
 		var val = $(this).val();
 		
 		if(val == '') {
 			return;
 		}
-		var data = $('#file-data').val();
 		
+		var data = $('#file-data').val();
 		
 		if($('input[name="serapator"]:checked').val() == "other"){
 			splitData( data, val);
@@ -105,6 +105,7 @@ function review() {
 		addDeleteButtonEvent($('.create'));
 	});
 	
+	// Split data by separator
 	function splitData(data, separator){
 		if(data == undefined || data.trim() == ""){
 			return;
@@ -118,6 +119,7 @@ function review() {
 	}
 }
 
+// Split String data line by line by serapator
 function split(contents, wordSerapator){
 	var lineSeparator = '\n';
 	var lines;
@@ -136,20 +138,22 @@ function split(contents, wordSerapator){
 	return result;
 }
 
-// Add event for delete button
+// Add event for button (delete, moveup, movedown)
 function addDeleteButtonEvent(table, limitRow){
+	
+	// Delete button event
 	table.find('.delete').off('click').on('click', function(){
 		if(table.find('.delete').length < 2) {
-			alert('so dong phai lon hon 1');
+			alert('Bạn không thể xoá!');
 			return;
 		}
-		var del = confirm("Ban muon xoa?");
+		var del = confirm("Bạn có muốn xoá dòng này?");
 		if(del){
 			$(this).closest('tr').remove();
 		}
 	});
 	
-	// Click event
+	// Moveup button event
 	table.find('.moveup').off('click').on('click', function(){
 		var seft = $(this);
 		var tr = seft.closest('tr');
@@ -168,6 +172,7 @@ function addDeleteButtonEvent(table, limitRow){
 		});
 	});
 	
+	// Movedown button event
 	table.find('.movedown').off('click').on('click', function(){
 		var seft = $(this);
 		var tr = seft.closest('tr');
@@ -185,6 +190,8 @@ function addDeleteButtonEvent(table, limitRow){
 	});
 }
 
+
+// Do not finish
 function game(){
 	// Test only
 	var data = Array();
@@ -214,6 +221,7 @@ function game(){
 	board.append(flyer);
 }
 
+// Search data
 function search(para){
 	$.ajax({
 		type : 'POST',
@@ -241,6 +249,8 @@ function search(para){
 		}
 	});
 } 
+
+// Get newest pattern
 function searchNew(url, para){
 	$.ajax({
 		type : 'POST',
@@ -265,10 +275,14 @@ function searchNew(url, para){
 		
 	});
 } 
+
+// Add event for button in step 1
 function nextButton1() {
+	
+	// New pattern by hand
 	$('#btnNextHand').click(function(){
 		if(checkInput()){
-			var form = $('form[name="create1"');
+			var form = $('form[name="create1"]');
 			$.ajax({
 				type: 'POST',
 				url: '/api/pattern/checkStep1',
@@ -276,7 +290,7 @@ function nextButton1() {
 			}).done(function(data){
 				rs = $.parseJSON(data);
 				if(rs.valid == 0){
-					alert("error");
+					alert("Lỗi");
 				} else if(rs.valid == 1) {
 					window.location.href = '/new/3';
 				}
@@ -284,9 +298,10 @@ function nextButton1() {
 		}
 	});
 	
+	// New pattern by file
 	$('#btnNextFile').click(function(){
 		if(checkInput()){
-			var form = $('form[name="create1"');
+			var form = $('form[name="create1"]');
 			$.ajax({
 				type: 'POST',
 				url: '/api/pattern/checkStep1',
@@ -294,7 +309,7 @@ function nextButton1() {
 			}).done(function(data){
 				rs = $.parseJSON(data);
 				if(rs.valid == 0){
-					alert("error");
+					alert("Lỗi");
 				} else if(rs.valid == 1) {
 					window.location.href = '/new/2';
 				}
@@ -302,25 +317,27 @@ function nextButton1() {
 		}
 	});
 	
+	// Check input data
 	function checkInput(){
 		return true;
 	}
 }
 
+// Add event for next button at new pattern by file
 function nextButton2() {
 	$('#btnNext').on('click', function(){
 		var tr = $('#data').find('tr');
 		var count = $(tr[0]).find('input[name^="column"]').length;
 		
 		if(count < 2 || count > 5) {
-			alert('So cot phai 2-5');
+			alert('Số cột phải nằm trong khoảng từ 2 đến 5.');
 			return;
 		}
 		
 		for (var i = 0, len = tr.length; i < len; i++) {
 			var currentCount = $(tr[i]).find('input[name^="column"]').length;
 			if (currentCount != count) {
-				alert('So cot phai giong nhau');
+				alert('Số cột của các dòng phải giống nhau.');
 				return;
 			}
 			count = currentCount;
@@ -330,19 +347,19 @@ function nextButton2() {
 		var form = $('form[name="step2"]');
 		
 		if(currentCount != form.find('[name="columnSize"]').val()) {
-			alert('So cot du lieu lon hon so cot da tao');
+			alert('Số cột dữ liệu lớn hơn số cột đã tạo ở Bước 1');
 			return;
 		}
 		
 		if(form.find('tr').length < 2) {
-			alert('so dong phai > 1');
+			alert('Số dòng phải lớn hơn 1.');
 		}
 		
 		// Rename input
 		form.find('tr').each(function(idx, el){
-			$(el).attr('row', idx-1)
+			$(el).attr('row', idx)
 			$(el).find('input[type="text"]').each(function(idx2, el){
-				$(this).attr('name', 'column' + (idx-1) + '' + (idx2))
+				$(this).attr('name', 'column' + (idx) + '' + (idx2))
 			})
 			
 		});
@@ -355,7 +372,7 @@ function nextButton2() {
 		}).done(function(data){
 			rs = $.parseJSON(data);
 			if(rs.valid == 0){
-				alert("error");
+				alert("Lỗi.");
 			} else if(rs.valid == 1) {
 				window.location.href = '/new/4';
 			}
@@ -411,12 +428,11 @@ function uploadFile(){
 					// Display server response
 					var response = $(this).contents().find('body').html();
 					var data = $.parseJSON(response);
-					$('#data').val(data.data);
-					console.log(data)
 				    if(data.valid == 0) {
 				    	$('#msg').html(data.error).show();
 				    } else {
-				    	$('#msg').hide();				    	
+				    	$('#msg').hide();		
+				    	$('#file-data').val(data.data);
 				    }
 				}
 			})
@@ -428,6 +444,7 @@ function uploadFile(){
 	});
 }
 
+// Edit pattern
 function edit(d) {
 	var size = d.info.columnsize;
 	var table = $('table[id="data"]');
@@ -455,7 +472,7 @@ function edit(d) {
 		// Check input here
 		// If no row
 		if(form.find('tr').length < 2){
-			alert('so dong phai > 1');
+			alert('Số dòng phải lớn hơn 1.');
 		}
 		
 		// Rename input
@@ -475,7 +492,7 @@ function edit(d) {
 		}).done(function(data){
 			rs = $.parseJSON(data);
 			if(rs.valid == 0){
-				alert("error");
+				alert("Lỗi.");
 				if($.isArray(rs.error)) {
 					for (var i = 0; i < rs.error.length; i++) {
 						// display error here
@@ -489,7 +506,7 @@ function edit(d) {
 	
 }
 
-// SESSION
+// Set session
 function setSession(key, value){
 	$.ajax({
 		type: 'POST',
@@ -500,6 +517,7 @@ function setSession(key, value){
 	});
 }
 
+// Get profile image from facebook
 function getAvatar(id, el){
 	$.ajax({
 		type : 'get',
@@ -512,4 +530,28 @@ function getAvatar(id, el){
 		}
 		newImg.src = data.data.url;
 	});
+}
+
+// Add active class when click on one element if sub nav
+function subNavActive(){
+	$('.detail-nav ul li a').on('click', function(){
+		$('.detail-nav ul li a').removeClass('active');
+		$(this).addClass('active');
+	})
+}
+
+function changeSubNavNew(name, link, selectIndex) {
+	$('.detail-nav ul li a').each(function(idx, el){
+		if(idx < name.length) {
+			$(el).html(name[idx]);
+			$(el).attr('href',link[idx]);
+		}else {
+			$(el).remove();
+		}
+		if(idx == selectIndex){
+			$(el).addClass('active');
+		} else {
+			$(el).removeClass('active');
+		}
+	})
 }

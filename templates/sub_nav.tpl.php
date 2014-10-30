@@ -8,3 +8,6 @@
 	</ul>
 </div>
 <div class="clear"></div>
+<script>
+	subNavActive();
+</script>

@@ -1,56 +1,12 @@
+/* Random quiz*/
 Quiz =  function (data) {
 	var displayEl;
 	var inputEl;
 	var crDataArr = Array();
 	var crIdxArr = Array();
 	var crIdx = 0;
+	var crMark = 0;
 	
-	/**
-	 * Random integer number
-	 * */
-	function random(max){
-		var x = Math.random();
-		return Math.round(x*max);
-	};
-	
-	/**
-	 * Random integer number between min-max
-	 * */
-	function random2(min, max){
-		
-		return Math.floor(Math.random()*(max-min+1) + min);
-	};
-	
-	/**
-	 * Random integer array
-	 * */
-	function random3(num){
-		var arr= Array();
-		var idx=1;
-		var exist = false;
-		arr[0]= random2(1,num)-1;
-		
-		while(idx<num){
-			exist = false;
-			
-			var rd = random2(1, num)-1;
-			
-			for(var i=0;i<arr.length;i++){
-				if(arr[i]==rd){
-					exist = true;
-					break;
-				}
-			}
-			
-			if(exist){
-				continue;
-			}else{
-				arr[idx]=rd;
-				idx++;
-			}
-		}
-		return arr;
-	};
 	
 	function controlEvent(){
 		inputControl = $('#inputControl');
@@ -65,7 +21,10 @@ Quiz =  function (data) {
 		inputEl.each(function(idx, el){
 			$(el).off('keyup').on('keyup blur', function(e){
 				if(e.keyCode == 13 || e.type == 'blur'){
+					
+					// Compare data input
 					if(data.data[crIdxArr[crIdx]][idx].toLowerCase() == $(el).val().toLowerCase()){
+						// Detect next input element
 						var nextInput = null;
 						for(var i = idx + 1; i < liEl.length; i++){
 							if(!liEl.eq(i).hasClass('hide')){
@@ -76,23 +35,26 @@ Quiz =  function (data) {
 						if(nextInput != null){
 							nextInput.find('input')[0].select();
 							nextInput.find('input')[0].focus();
-//							$(nextInput.find('input')[0]).val('');
+							$(nextInput.find('input')[0]).val('');
 						} else {
-							crIdx++;
+//							crIdx++;
 							$(el).val('');
-							$('.input li:not(.hidden):first').find('input').select().focus();
-							
-							// Set display data
-							$('.detail-show li').each(function(idx, el){
-								$(el).html(data.data[crIdxArr[crIdx]][idx]);
-							});
+							$('.input li:not(.hide):first').find('input').select().focus();
+							next(1, false);
 						}
+						$(el).removeClass('error');
+					} else {
+						crMark ++;
+						// Show wrong answer message
+						$(el).addClass('error'); 
+						el.focus();
 					}
 				}
 			});
 		});
 	}
 	
+	// Set event for setting area (input, display column)
 	function setEvent (control) {
 		controlEl = control.find('a');
 		controlEl.each(function(idx, el){
@@ -102,10 +64,15 @@ Quiz =  function (data) {
 				controlOther = $('#' + control.attr('other'));
 				controlOtherEl = controlOther.find('a');
 				var selectedCount = control.find('a.selected').length;
-				if((selectedCount < 2 && seft.hasClass('selected')) || (selectedCount > 3 && !seft.hasClass('selected'))){
+				
+				// Stop if only one is selected
+				if((selectedCount < 2 && seft.hasClass('selected'))
+//						|| (selectedCount > 3 && !seft.hasClass('selected'))
+					){
 					return;
 				}
 				
+				// Toogle selected class
 				if(!seft.hasClass('selected')){
 //					if(controlOther.find('a.selected').length == 1 && controlOtherEl.eq(idx).hasClass('selected')){
 //						return;
@@ -117,6 +84,7 @@ Quiz =  function (data) {
 					seft.removeClass('selected');
 				}
 				
+				// Show/hide display item
 				for(var i = 0; i < controlOther.find('a').length; i++) {
 					if($(controlOther.find('a')[i]).hasClass('selected')){
 						$(controlOther.attr('display')).find('li:eq(' + i + ')').removeClass('hide');
@@ -126,6 +94,7 @@ Quiz =  function (data) {
 					}
 				}
 				
+				// Show/hide input item
 				for(var i = 0; i < control.find('a').length; i++) {
 					if($(control.find('a')[i]).hasClass('selected')){
 						$(control.attr('display')).find('li:eq(' + i + ')').removeClass('hide');
@@ -198,27 +167,48 @@ Quiz =  function (data) {
 		controlEvent();
 	}
 	
+	// Create random data
 	this.random = function (regx) {
-		// 
+		
 		var selectedIdxArr  = applyData(regx);
 		crIdx = 0;
 		crIdxArr = random3(selectedIdxArr.length);
 		$('.detail-show li').each(function(idx, el){
 			$(el).html(data.data[crIdxArr[crIdx]][idx]);
 		});
+		$('.record').html(crIdx + ' / ' + crIdxArr.length);
 	}
-	this.next = function(step){
+	
+	
+	this.next =  function(step, resetMark){
+		next(step, resetMark);
+	}
+	// Change current item by step
+	function next (step, resetMark){
+		// Remove error class
+		 $('.input').find('li>input').removeClass('error');
+		if(resetMark ==  true){
+			crMark = 0;
+		} 
+//		else {
+//			crMark++;
+//		}
 		crIdx += step;
 		if(crIdx < 0 ){
 			crIdx = 0;
 		} else if(crIdx >= crIdxArr.length){
 			crIdx = crIdxArr.length - 1;
+			alert('Đã hết.');
+			return;
 		}
 		// Set display data
 		$('.detail-show li').each(function(idx, el){
 			$(el).html(data.data[crIdxArr[crIdx]][idx]);
+			
 		});
+		$('.record').html(crIdx + 1 + ' / ' + crIdxArr.length);
 	}
+	
 	// Get data from regx
 	function applyData(regx){
 		regx = regx.trim();
@@ -255,6 +245,7 @@ Quiz =  function (data) {
 		return rs;
 	}
 	
+	// Check is number
 	function isNumber(n) {
 	  return !isNaN(parseFloat(n)) && isFinite(n);
 	}

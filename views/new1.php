@@ -62,10 +62,9 @@
 		createStep1();
 		nextButton1();
 
-		$('form[name="search"]').on('submit', function(e) {
-			e.preventDefault();
-			alert(1);
-		});
+		
+		// Change sub menu
+		changeSubNavNew(["Tao moi"], [''], 1);
 	});
 </script>
 {/block}

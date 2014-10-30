@@ -1,6 +1,6 @@
 	<div class="header">
 		<div class="wrap">
-			<div class="logo"><a href='/'>perfect website</a></div>
+			<div class="logo"><a href='/'>{$logo}</a></div>
 			<div class="search">
 				<form name="search" method="get" action="/search">
 					<input id="title" name="title" type="text" value="{$param}" /> <input type="submit" value="search" />
@@ -10,7 +10,7 @@
 			<div class="menu">
 				<ul>
 					<li id="main-avatar"></li>
-<!-- 					<li><a href="#">My document</a></li> -->
+<!-- 					<li><a href="#">Dng nhap bang face nook doc ko</a></li> -->
 <!-- 					<li><a href="#">My favour</a></li> -->
 
 					<li id="btnLogin"><a href="#"></a></li>
