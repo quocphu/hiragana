@@ -108,7 +108,7 @@ class PatternService {
 	 * @return multitype: all->count all row(no limit), data->current data(limit)
 	 */
 	public function searchNew($title){
-		$data = $this->patternDao->search($title, 10, 0, "create_date", "desc");
+		$data = $this->patternDao->search($title, 3, 0, "create_date", "desc");
 		return $data;
 	}
 	
