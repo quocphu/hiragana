@@ -47,7 +47,7 @@ Quiz =  function (data) {
 						crMark ++;
 						// Show wrong answer message
 						$(el).addClass('error'); 
-						el.focus();
+						//el.focus();
 					}
 				}
 			});

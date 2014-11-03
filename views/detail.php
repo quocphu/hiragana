@@ -109,9 +109,11 @@
 		var rows = ptn.data;
 		var table = $('table[id="data"]');
 		table.html('');
-		createRow(table, ptn.header, -1, true, false);
+		var emptyHeader = ['STT'];
+		var tmpHeader = $.merge(emptyHeader, ptn.header);
+		createRow(table, tmpHeader, -1, true, false);
 		for (var i = 0; i < rows.length; i++) {
-			createRow(table, rows[i], i, true, false);
+			createRow(table, rows[i], i, true, false,true);
 		}	
 		
 		// Change sub menu text

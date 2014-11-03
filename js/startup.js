@@ -56,8 +56,17 @@ function createStep3(d){
 	addDeleteButtonEvent($('.create'));
 }
 
-// Add row to table
-function createRow(table, rowData, rowNum, isHeader, addDeleteButton){
+
+/**
+ * Add row to table
+ * table: table to add row
+ * rowData: array data
+ * rowNum: row number (for create id)
+ * isHeader: create td not input
+ * addDeleteButton: add button for delete, move
+ * addOrderCol: add order column
+ */
+function createRow(table, rowData, rowNum, isHeader, addDeleteButton, addOrderCol){
 	var tr = $('<tr row="' + rowNum + '"></tr>');
 	for(var i = 0; i < rowData.length; i++){
 		if(isHeader){
@@ -68,6 +77,10 @@ function createRow(table, rowData, rowNum, isHeader, addDeleteButton){
 	}
 	if(addDeleteButton) {
 		tr.append('<td><input type="button" value="✗" class="width30percent delete"/><input type="button" value="&#x25B2;" class="width30percent moveup"/><input type="button" value="&#x25BC;" class="width30percent movedown"/></td>');
+	}
+	
+	if(addOrderCol) {
+		tr.prepend('<td>' + rowNum + '</td>');
 	}
 	table.append(tr);
 }
