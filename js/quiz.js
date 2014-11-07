@@ -37,18 +37,24 @@ Quiz =  function (data) {
 							nextInput.find('input')[0].focus();
 							$(nextInput.find('input')[0]).val('');
 						} else {
-//							crIdx++;
 							$(el).val('');
 							$('.input li:not(.hide):first').find('input').select().focus();
+							
+							// Count right answer
+							if(!$(el).next('span').hasClass('error')) {
+								crMark ++;
+							}
 							next(1, false);
 						}
-						$(el).removeClass('error');
+						
+						$(el).next('span').removeClass('error');
 					} else {
-						crMark ++;
+						
 						// Show wrong answer message
-						$(el).addClass('error'); 
+						$(el).next('span').addClass('error'); 
 						//el.focus();
 					}
+					console.log(crMark)
 				}
 			});
 		});
@@ -109,6 +115,8 @@ Quiz =  function (data) {
 	}
 	
 	this.init = function () {
+		resetGlobal();
+		
 		// Show header
 		var display = $('.detail-show>ul');
 		var input = $('.input ul');
@@ -169,9 +177,9 @@ Quiz =  function (data) {
 	
 	// Create random data
 	this.random = function (regx) {
+		resetGlobal();
 		
 		var selectedIdxArr  = applyData(regx);
-		crIdx = 0;
 		crIdxArr = random3(selectedIdxArr.length);
 		$('.detail-show li').each(function(idx, el){
 			$(el).html(data.data[crIdxArr[crIdx]][idx]);
@@ -183,10 +191,17 @@ Quiz =  function (data) {
 	this.next =  function(step, resetMark){
 		next(step, resetMark);
 	}
+	
+	this.getData = function (i, j){
+		return data.data[crIdxArr[i]][j]
+	}
+	this.getCurrentData = function (j){
+		return data.data[crIdxArr[crIdx]][j];
+	}
 	// Change current item by step
 	function next (step, resetMark){
 		// Remove error class
-		 $('.input').find('li>input').removeClass('error');
+		 $('.input').find('li>input').next('span').removeClass('error');
 		if(resetMark ==  true){
 			crMark = 0;
 		} 
@@ -198,7 +213,8 @@ Quiz =  function (data) {
 			crIdx = 0;
 		} else if(crIdx >= crIdxArr.length){
 			crIdx = crIdxArr.length - 1;
-			alert('Đã hết.');
+			alert('Đã hết.\n Trả lời đúng ' + crMark +'/' + crIdxArr.length);
+			resetGlobal();
 			return;
 		}
 		// Set display data
@@ -248,5 +264,10 @@ Quiz =  function (data) {
 	// Check is number
 	function isNumber(n) {
 	  return !isNaN(parseFloat(n)) && isFinite(n);
+	}
+	function resetGlobal(){
+		crIdx = 0;
+		crMark = 0;
+		$('.input').find('span').removeClass('error');
 	}
 };

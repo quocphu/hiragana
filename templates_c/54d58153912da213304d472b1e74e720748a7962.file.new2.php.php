@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-10-29 11:20:31
+<?php /* Smarty version Smarty-3.1.19, created on 2014-11-06 10:32:55
          compiled from "views/new2.php" */ ?>
 <?php /*%%SmartyHeaderCode:604867661543b902e49a284-59619713%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '54d58153912da213304d472b1e74e720748a7962' => 
     array (
       0 => 'views/new2.php',
-      1 => 1414565795,
+      1 => 1415266372,
       2 => 'file',
     ),
     'bfb5bf6d529a1de2057e120d97a8626aa9ef7fad' => 
@@ -43,11 +43,11 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 				<?php /*  Call merged included template "sub_nav.tpl.php" */
 $_tpl_stack[] = $_smarty_tpl;
  $_smarty_tpl = $_smarty_tpl->setupInlineSubTemplate("sub_nav.tpl.php", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array(), 0, '604867661543b902e49a284-59619713');
-content_5450bf6fa65fb7_57922636($_smarty_tpl);
+content_545b4047cb1ca6_87108514($_smarty_tpl);
 $_smarty_tpl = array_pop($_tpl_stack); 
 /*  End of included template "sub_nav.tpl.php" */?>
 				<div class="content">
-					<form id="file_upload_form" action="../upload.php"  >
+					<form id="file_upload_form" action="../upload.php">
 						<input type="file" id="upload_field" name="upload_field" />
 						<input type="submit" value="Upload" /><span id="msg"></span>
 					</form>
@@ -59,13 +59,13 @@ $_smarty_tpl = array_pop($_tpl_stack);
 		
 		</table>
 	</div>
-	<label><input type="radio" name="serapator" value="comma"/> dau phay</label>
-	<label><input type="radio" name="serapator" value="space"/> khoang trang</label>
-	<label><input type="radio" name="serapator" value="tab"/> tab</label>
-	<label><input type="radio" name="serapator" value="other"/>Khac <input type="text" name="otherSerapator"/> </label>
+	<label><input type="radio" name="serapator" value="comma"/> Dấu phẩy</label>
+	<label><input type="radio" name="serapator" value="space"/> Khoảng trắng</label>
+	<label><input type="radio" name="serapator" value="tab"/> Dấu tab</label>
+	<label><input type="radio" name="serapator" value="other"/>Kí tự khác: <input type="text" name="otherSerapator"/> </label>
 	<input name="columnSize" type="hidden" value="<?php echo $_smarty_tpl->tpl_vars['rowNum']->value;?>
 "/>
-	<input id="btnNext"  type="button" value="Next"/><br>
+	<input id="btnNext"  type="button" value="Tiếp tục"/><br>
 </form>					
 				</div>
 			</div>
@@ -73,11 +73,11 @@ $_smarty_tpl = array_pop($_tpl_stack);
 	</div>
 	<script type="text/javascript">
 	$(document).ready(function() {
-		review();
+		createStep2();
 		uploadFile();
 		nextButton2();
 		// Change sub menu
-		changeSubNavNew(["Tao moi bang File"],[''], 1);
+		changeSubNavNew(["Tạo mới - nhập bằng file"],[''], 1);
 	});
 </script>
 
@@ -85,9 +85,9 @@ $_smarty_tpl = array_pop($_tpl_stack);
 <?php echo $_smarty_tpl->getSubTemplate ("footer.tpl.php", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array('root'=>".."), 0);?>
 
 <?php }} ?>
-<?php /* Smarty version Smarty-3.1.19, created on 2014-10-29 11:20:31
+<?php /* Smarty version Smarty-3.1.19, created on 2014-11-06 10:32:55
          compiled from "./templates/sub_nav.tpl.php" */ ?>
-<?php if ($_valid && !is_callable('content_5450bf6fa65fb7_57922636')) {function content_5450bf6fa65fb7_57922636($_smarty_tpl) {?><div class="detail-nav">
+<?php if ($_valid && !is_callable('content_545b4047cb1ca6_87108514')) {function content_545b4047cb1ca6_87108514($_smarty_tpl) {?><div class="detail-nav">
 	<ul>
 		<li><a href="#" class="active">Flash card</a></li>
 		<li><a href="#">Learn</a></li>

@@ -5,13 +5,15 @@ insert into pattern (
 		columnsize,
 		create_date,
 		tag,
-		update_date
+		update_date,
+		status
 	) values (
 		'#title#',
 		'#description#',
 		#accountid#,
 		#columnsize#,
+		current_timestamp,
 		'#tag#',
 		current_timestamp,
-		current_timestamp
+		1
 	);

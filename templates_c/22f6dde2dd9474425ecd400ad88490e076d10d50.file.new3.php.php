@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-10-29 11:20:45
+<?php /* Smarty version Smarty-3.1.19, created on 2014-11-06 10:30:10
          compiled from "views/new3.php" */ ?>
 <?php /*%%SmartyHeaderCode:327979575543b912905ebb5-87103196%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '22f6dde2dd9474425ecd400ad88490e076d10d50' => 
     array (
       0 => 'views/new3.php',
-      1 => 1414565738,
+      1 => 1415266208,
       2 => 'file',
     ),
     'bfb5bf6d529a1de2057e120d97a8626aa9ef7fad' => 
@@ -43,7 +43,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 				<?php /*  Call merged included template "sub_nav.tpl.php" */
 $_tpl_stack[] = $_smarty_tpl;
  $_smarty_tpl = $_smarty_tpl->setupInlineSubTemplate("sub_nav.tpl.php", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array(), 0, '327979575543b912905ebb5-87103196');
-content_5450bf7d9e15b2_92848527($_smarty_tpl);
+content_545b3fa27c58c1_15999245($_smarty_tpl);
 $_smarty_tpl = array_pop($_tpl_stack); 
 /*  End of included template "sub_nav.tpl.php" */?>
 				<div class="content over-scroll">
@@ -52,8 +52,8 @@ $_smarty_tpl = array_pop($_tpl_stack);
 					</table>
 					<input name="columnSize" type="hidden" value="<?php echo $_smarty_tpl->tpl_vars['rowNum']->value;?>
 "/>
-					<input id="btnNext" type="button" value="Next"/>
-					<input id="btnNewRow" type="button" value="New row"/>
+					<input id="btnNext" type="button" value="Tiếp tục"/>
+					<input id="btnNewRow" type="button" value="Thêm dòng mới"/>
 				</form>
 				</div>
 			</div>
@@ -84,7 +84,7 @@ $_smarty_tpl = array_pop($_tpl_stack);
 		});
 
 		// Change sub menu
-		changeSubNavNew(["Tao moi bang tay"],[''], 1);
+		changeSubNavNew(["Tạo mới bằng cách nhập bằng tay"],[''], 1);
 	});
 </script>
 
@@ -92,9 +92,9 @@ $_smarty_tpl = array_pop($_tpl_stack);
 <?php echo $_smarty_tpl->getSubTemplate ("footer.tpl.php", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array('root'=>".."), 0);?>
 
 <?php }} ?>
-<?php /* Smarty version Smarty-3.1.19, created on 2014-10-29 11:20:45
+<?php /* Smarty version Smarty-3.1.19, created on 2014-11-06 10:30:10
          compiled from "./templates/sub_nav.tpl.php" */ ?>
-<?php if ($_valid && !is_callable('content_5450bf7d9e15b2_92848527')) {function content_5450bf7d9e15b2_92848527($_smarty_tpl) {?><div class="detail-nav">
+<?php if ($_valid && !is_callable('content_545b3fa27c58c1_15999245')) {function content_545b3fa27c58c1_15999245($_smarty_tpl) {?><div class="detail-nav">
 	<ul>
 		<li><a href="#" class="active">Flash card</a></li>
 		<li><a href="#">Learn</a></li>

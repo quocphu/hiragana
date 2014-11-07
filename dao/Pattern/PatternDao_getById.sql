@@ -1,3 +1,4 @@
 select *
 from pattern
-where id=#id#
+where status = 1
+and  id=#id#

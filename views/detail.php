@@ -104,6 +104,12 @@
 			alert('Chọn các phần tử muốn hiển thị.\n Ví dụ:\n \t\t1,2,3 --> chọn 1, 2, 3\n \t\t4-6 --> chọn từ 4 -> 6\n \t\tHoặc kết hợp cả 2: 1,2,3,4-6')
 		});
 
+		$('.input ul').find('span').each(function(idx, el){
+			$(el).on('click', function(){
+				$(this).prev().val(q.getCurrentData(idx));
+			});
+			
+		});
 		
 		// Create show all
 		var rows = ptn.data;
@@ -143,8 +149,8 @@
 	});
 
 	// Create facebook comment plugin
-	var commentPlg = $('<div style="with:100%; overflow: scroll; display: block"><div class="fb-comments" data-href="http://localhost:8888/fb/login.php" data-numposts="5" data-colorscheme="light" data-width="100%" ></div></div>');
-	var likePlg = $('<div style="with:100%; overflow: scroll; display: block"><div class="fb-like" data-href="http://localhost:8888" data-layout="standard" data-action="like" data-show-faces="true" data-share="true" data-width="100%"></div></div>');
+	var commentPlg = $('<div style="with:100%; overflow: hidden; display: block"><div class="fb-comments" data-href="http://localhost:8888/fb/login.php" data-numposts="5" data-colorscheme="light" data-width="100%" ></div></div>');
+	var likePlg = $('<div style="with:100%; overflow: hidden; display: block"><div class="fb-like" data-href="http://localhost:8888" data-layout="standard" data-action="like" data-show-faces="true" data-share="true" data-width="100%"></div></div>');
 	var href = location.origin + location.pathname;
 	commentPlg.attr('data-href', href);
 	likePlg.attr('data-href', href);

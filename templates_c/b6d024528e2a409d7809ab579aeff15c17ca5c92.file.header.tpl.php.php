@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-10-30 08:40:37
+<?php /* Smarty version Smarty-3.1.19, created on 2014-11-07 05:35:00
          compiled from "./templates/header.tpl.php" */ ?>
 <?php /*%%SmartyHeaderCode:17631406365417961966cf91-42568171%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'b6d024528e2a409d7809ab579aeff15c17ca5c92' => 
     array (
       0 => './templates/header.tpl.php',
-      1 => 1414654834,
+      1 => 1415334835,
       2 => 'file',
     ),
   ),
@@ -22,13 +22,10 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'title' => 0,
     'root' => 0,
     'appId' => 0,
-    'body_class' => 0,
   ),
   'has_nocache_code' => false,
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_54179619679da6_34679707')) {function content_54179619679da6_34679707($_smarty_tpl) {?><!DOCTYPE html>
-<html>
-<head>
+<?php if ($_valid && !is_callable('content_54179619679da6_34679707')) {function content_54179619679da6_34679707($_smarty_tpl) {?><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title><?php echo $_smarty_tpl->tpl_vars['title']->value;?>
@@ -50,5 +47,4 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 <script type="text/javascript" src="<?php echo $_smarty_tpl->tpl_vars['root']->value;?>
 /js/startup.js"></script>
 </head>
-<body class=<?php echo $_smarty_tpl->tpl_vars['body_class']->value;?>
-><?php }} ?>
+<?php }} ?>

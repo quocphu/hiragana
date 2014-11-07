@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-10-30 09:49:22
+<?php /* Smarty version Smarty-3.1.19, created on 2014-11-06 10:18:46
          compiled from "./templates/menu.tpl.php" */ ?>
 <?php /*%%SmartyHeaderCode:17248648835417961967d993-42321363%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'bacc0f9eb48f8fb33335096c0961975a40e2e8db' => 
     array (
       0 => './templates/menu.tpl.php',
-      1 => 1414658958,
+      1 => 1415265521,
       2 => 'file',
     ),
   ),
@@ -37,11 +37,13 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 
 			<div class="menu">
 				<ul>
+					
 					<li id="main-avatar"></li>
 <!-- 					<li><a href="#">Dng nhap bang face nook doc ko</a></li> -->
 <!-- 					<li><a href="#">My favour</a></li> -->
 
 					<li id="btnLogin"><a href="#"></a></li>
+					<li id="main-avatar"> <a href="/new/1"id="btnNew" alt="Tạo mới">+</a></li>
 				</ul>
 			</div>
 			<div id="pull">Menu</div>

@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-10-29 11:20:13
+<?php /* Smarty version Smarty-3.1.19, created on 2014-11-06 10:28:50
          compiled from "views/new1.php" */ ?>
 <?php /*%%SmartyHeaderCode:1586432887543b8d3903f8e7-83257802%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '9fc97f323865ccd96f0b234e54ef1ab3d4f15ea1' => 
     array (
       0 => 'views/new1.php',
-      1 => 1414570861,
+      1 => 1415266121,
       2 => 'file',
     ),
     'bfb5bf6d529a1de2057e120d97a8626aa9ef7fad' => 
@@ -43,19 +43,19 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 				<?php /*  Call merged included template "sub_nav.tpl.php" */
 $_tpl_stack[] = $_smarty_tpl;
  $_smarty_tpl = $_smarty_tpl->setupInlineSubTemplate("sub_nav.tpl.php", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array(), 0, '1586432887543b8d3903f8e7-83257802');
-content_5450bf5dd7eae7_48587339($_smarty_tpl);
+content_545b3f52bf6d25_58587026($_smarty_tpl);
 $_smarty_tpl = array_pop($_tpl_stack); 
 /*  End of included template "sub_nav.tpl.php" */?>
 				<div class="content">
 					<form name="create1">
 						<table class="create">
 							<tr>
-								<td>Title</td>
-								<td colspan="2"><input name="title" type="text" value="column 11" /></td>
+								<td>Tên</td>
+								<td colspan="2"><input name="title" type="text" value="" /></td>
 
 							</tr>
 							<tr>
-								<td>So cot</td>
+								<td>Số cột</td>
 								<td colspan="2">
 									<select name="column_number">
 											<option>2</option>
@@ -67,33 +67,33 @@ $_smarty_tpl = array_pop($_tpl_stack);
 
 							</tr>
 							<tr>
-								<td colspan="2">Column title 1</td>
-								<td><input name="column1" type="text" value="column 1" /></td>
+								<td colspan="2">Cột 1</td>
+								<td><input name="column1" type="text" value="" /></td>
 
 							</tr>
 							<tr>
-								<td colspan="2">Column title 2</td>
-								<td><input name="column2" type="text" value="column 2" /></td>
+								<td colspan="2">Cột 2</td>
+								<td><input name="column2" type="text" value="" /></td>
 
 							</tr>
 							<tr>
-								<td colspan="2">Column title 3</td>
-								<td><input name="column3" type="text" value="column 3" /></td>
+								<td colspan="2">Cột 3</td>
+								<td><input name="column3" type="text" value="" /></td>
 
 							</tr>
 							<tr>
-								<td colspan="2">Column title 4</td>
-								<td><input name="column4" type="text" value="column 4" /></td>
+								<td colspan="2">Cột 4</td>
+								<td><input name="column4" type="text" value="" /></td>
 
 							</tr>
 							<tr>
-								<td colspan="2">Column title 5</td>
-								<td><input name="column5" type="text" value="column 5" /></td>
+								<td colspan="2">Cột 5</td>
+								<td><input name="column5" type="text" value="" /></td>
 
 							</tr>
 						</table>
-						<input id="btnNextHand" type="button" value="Hand input" />
-						<input id="btnNextFile" type="button" value="File input" />
+						<input id="btnNextHand" type="button" value="Nhập bằng tay" />
+						<input id="btnNextFile" type="button" value="Nhập bằng file" />
 					</form>
 				</div>
 			</div>
@@ -106,7 +106,7 @@ $_smarty_tpl = array_pop($_tpl_stack);
 
 		
 		// Change sub menu
-		changeSubNavNew(["Tao moi"], [''], 1);
+		changeSubNavNew(["Tạo mới"], [''], 1);
 	});
 </script>
 
@@ -114,9 +114,9 @@ $_smarty_tpl = array_pop($_tpl_stack);
 <?php echo $_smarty_tpl->getSubTemplate ("footer.tpl.php", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array('root'=>".."), 0);?>
 
 <?php }} ?>
-<?php /* Smarty version Smarty-3.1.19, created on 2014-10-29 11:20:13
+<?php /* Smarty version Smarty-3.1.19, created on 2014-11-06 10:28:50
          compiled from "./templates/sub_nav.tpl.php" */ ?>
-<?php if ($_valid && !is_callable('content_5450bf5dd7eae7_48587339')) {function content_5450bf5dd7eae7_48587339($_smarty_tpl) {?><div class="detail-nav">
+<?php if ($_valid && !is_callable('content_545b3f52bf6d25_58587026')) {function content_545b3f52bf6d25_58587026($_smarty_tpl) {?><div class="detail-nav">
 	<ul>
 		<li><a href="#" class="active">Flash card</a></li>
 		<li><a href="#">Learn</a></li>

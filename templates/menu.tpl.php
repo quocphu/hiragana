@@ -9,11 +9,13 @@
 
 			<div class="menu">
 				<ul>
+					
 					<li id="main-avatar"></li>
 <!-- 					<li><a href="#">Dng nhap bang face nook doc ko</a></li> -->
 <!-- 					<li><a href="#">My favour</a></li> -->
 
 					<li id="btnLogin"><a href="#"></a></li>
+					<li id="main-avatar"> <a href="/new/1"id="btnNew" alt="Tạo mới">+</a></li>
 				</ul>
 			</div>
 			<div id="pull">Menu</div>

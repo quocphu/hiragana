@@ -264,26 +264,27 @@ function search(para){
 } 
 
 // Get newest pattern
-function searchNew(url, para){
+function searchNew(url, para, elementId){
 	$.ajax({
 		type : 'POST',
 		url : url,
 		data: para
 	}).done(function(data) {
 		rs = $.parseJSON(data);
-		var item = $('.list-pattern>li:nth(0)');
-		$('.list-pattern>li').remove();
+		
+		var item = $(elementId + '>li:nth(0)');
+		$(elementId+'>li').remove();
 		
 		;
 		for (var i = 0; i< rs.data.length; i++) {
 			var newItem = item.clone();
-			getAvatar(rs.data[i].fbId, newItem.find('.avatar'));
+//			getAvatar(rs.data[i].fbId, newItem.find('.avatar'));
 			newItem.find('h3 a').attr('href', '/detail/' + rs.data[i].id).html(rs.data[i].title);
 			newItem.find('li:eq(0)').html(rs.data[i].authorName);
 			newItem.find('li:eq(1)').html(rs.data[i].createDate);
 			newItem.find('li:eq(2)').html(numeral(rs.data[i].itemCount).format('0,0'));
 			newItem.find('li:eq(3)').html(rs.data[i].views);
-			$('.list-pattern').append(newItem);
+			$(elementId).append(newItem);
 		}
 		
 	});
@@ -304,6 +305,7 @@ function nextButton1() {
 				rs = $.parseJSON(data);
 				if(rs.valid == 0){
 					alert("Lỗi");
+					console.log(rs)
 				} else if(rs.valid == 1) {
 					window.location.href = '/new/3';
 				}

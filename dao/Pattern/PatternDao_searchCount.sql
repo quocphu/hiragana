@@ -1,4 +1,5 @@
 select count(*)
 from pattern
-where title like '%#title#%'
-or tag like '%#title#%'
+where status = 1
+and (  title like '%#title#%'
+or tag like '%#title#%')

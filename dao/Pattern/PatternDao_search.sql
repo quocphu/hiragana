@@ -18,8 +18,9 @@ from
 			create_Date,
 			accountid
 		from pattern
-		where title like '%#title#%'
-		or tag like '%#title#%'
+		where status = 1
+		and (title like '%#title#%'
+		or tag like '%#title#%')
 		order by #orderby#  #order# limit #limit# offset #offset#
 	) dt
 inner join account ac

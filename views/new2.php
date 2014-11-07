@@ -5,7 +5,7 @@
 			<div class="create-main">
 				{include file="sub_nav.tpl.php"}
 				<div class="content">
-					<form id="file_upload_form" action="../upload.php"  >
+					<form id="file_upload_form" action="../upload.php">
 						<input type="file" id="upload_field" name="upload_field" />
 						<input type="submit" value="Upload" /><span id="msg"></span>
 					</form>
@@ -17,12 +17,12 @@
 		
 		</table>
 	</div>
-	<label><input type="radio" name="serapator" value="comma"/> dau phay</label>
-	<label><input type="radio" name="serapator" value="space"/> khoang trang</label>
-	<label><input type="radio" name="serapator" value="tab"/> tab</label>
-	<label><input type="radio" name="serapator" value="other"/>Khac <input type="text" name="otherSerapator"/> </label>
+	<label><input type="radio" name="serapator" value="comma"/> Dấu phẩy</label>
+	<label><input type="radio" name="serapator" value="space"/> Khoảng trắng</label>
+	<label><input type="radio" name="serapator" value="tab"/> Dấu tab</label>
+	<label><input type="radio" name="serapator" value="other"/>Kí tự khác: <input type="text" name="otherSerapator"/> </label>
 	<input name="columnSize" type="hidden" value="{$rowNum}"/>
-	<input id="btnNext"  type="button" value="Next"/><br>
+	<input id="btnNext"  type="button" value="Tiếp tục"/><br>
 </form>					
 				</div>
 			</div>
@@ -34,7 +34,7 @@
 		uploadFile();
 		nextButton2();
 		// Change sub menu
-		changeSubNavNew(["Tao moi bang File"],[''], 1);
+		changeSubNavNew(["Tạo mới - nhập bằng file"],[''], 1);
 	});
 </script>
 {/block}

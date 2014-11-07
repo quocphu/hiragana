@@ -8,12 +8,12 @@
 					<form name="create1">
 						<table class="create">
 							<tr>
-								<td>Title</td>
-								<td colspan="2"><input name="title" type="text" value="column 11" /></td>
+								<td>Tên</td>
+								<td colspan="2"><input name="title" type="text" value="" /></td>
 
 							</tr>
 							<tr>
-								<td>So cot</td>
+								<td>Số cột</td>
 								<td colspan="2">
 									<select name="column_number">
 											<option>2</option>
@@ -25,33 +25,33 @@
 
 							</tr>
 							<tr>
-								<td colspan="2">Column title 1</td>
-								<td><input name="column1" type="text" value="column 1" /></td>
+								<td colspan="2">Cột 1</td>
+								<td><input name="column1" type="text" value="" /></td>
 
 							</tr>
 							<tr>
-								<td colspan="2">Column title 2</td>
-								<td><input name="column2" type="text" value="column 2" /></td>
+								<td colspan="2">Cột 2</td>
+								<td><input name="column2" type="text" value="" /></td>
 
 							</tr>
 							<tr>
-								<td colspan="2">Column title 3</td>
-								<td><input name="column3" type="text" value="column 3" /></td>
+								<td colspan="2">Cột 3</td>
+								<td><input name="column3" type="text" value="" /></td>
 
 							</tr>
 							<tr>
-								<td colspan="2">Column title 4</td>
-								<td><input name="column4" type="text" value="column 4" /></td>
+								<td colspan="2">Cột 4</td>
+								<td><input name="column4" type="text" value="" /></td>
 
 							</tr>
 							<tr>
-								<td colspan="2">Column title 5</td>
-								<td><input name="column5" type="text" value="column 5" /></td>
+								<td colspan="2">Cột 5</td>
+								<td><input name="column5" type="text" value="" /></td>
 
 							</tr>
 						</table>
-						<input id="btnNextHand" type="button" value="Hand input" />
-						<input id="btnNextFile" type="button" value="File input" />
+						<input id="btnNextHand" type="button" value="Nhập bằng tay" />
+						<input id="btnNextFile" type="button" value="Nhập bằng file" />
 					</form>
 				</div>
 			</div>
@@ -64,7 +64,7 @@
 
 		
 		// Change sub menu
-		changeSubNavNew(["Tao moi"], [''], 1);
+		changeSubNavNew(["Tạo mới"], [''], 1);
 	});
 </script>
 {/block}

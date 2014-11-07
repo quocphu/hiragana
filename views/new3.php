@@ -9,8 +9,8 @@
 					<table id="data" class="create">
 					</table>
 					<input name="columnSize" type="hidden" value="{$rowNum}"/>
-					<input id="btnNext" type="button" value="Next"/>
-					<input id="btnNewRow" type="button" value="New row"/>
+					<input id="btnNext" type="button" value="Tiếp tục"/>
+					<input id="btnNewRow" type="button" value="Thêm dòng mới"/>
 				</form>
 				</div>
 			</div>
@@ -40,7 +40,7 @@
 		});
 
 		// Change sub menu
-		changeSubNavNew(["Tao moi bang tay"],[''], 1);
+		changeSubNavNew(["Tạo mới - nhập bằng tay"],[''], 1);
 	});
 </script>
 {/block}

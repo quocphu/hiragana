@@ -133,12 +133,15 @@ class PatternApi {
 	
 	public function newPatternStep2($data) {
 		$size = $data['columnSize'];
-		$rowNum = (count($data)-2) / $size;
+		$rowNum = (count($data) - 3) / $size;
 		$error = array();
 		$detail = array();
 		$result = array();
 		$valid = 1;
-		
+// 		PLog::log($size);
+// 		PLog::log((count($data)-2));
+// 		PLog::log($rowNum);
+// 		PLog::log($data); return;
 		for($i = 0; $i < $rowNum; $i++){
 			for($j = 0 ; $j < $size; $j++) {
 				$name = 'column'.$i.$j;
