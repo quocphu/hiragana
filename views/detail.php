@@ -18,21 +18,22 @@
 							</div>
 							<div class="input">
 								<ul>
-									<li><input type="text" value="input 1" /><span>Column title 1</span></li>
-									<li ><input type="text" value="input 2" /><span>Column title 2</span></li>
-									<li ><input type="text" value="input 3" /><span>Column title 3</span></li>
-									<li ><input type="text" value="input 4" /><span>Column title 4</span></li>
-									<li ><input type="text" value="input 5" /><span>Column title 4</span></li>
+									<li><input type="text" value="input 1" /> <span>Column title 1</span></li>
+									<li ><input type="text" value="input 2" /> <span>Column title 2</span></li>
+									<li ><input type="text" value="input 3" /> <span>Column title 3</span></li>
+									<li ><input type="text" value="input 4" /> <span>Column title 4</span></li>
+									<li ><input type="text" value="input 5" /> <span>Column title 4</span></li>
 									
 								</ul>
 							</div>
+							<br>
 							<input type="button" value="Prev" id="btnPrev" />
 							<input type="button" value="Next" id="btnNext"/>
 							<span class="record">0/0</span>
 							<div class="setting">
 								<div class="show">
 									<span>Lọc:</span> <input type="text" name="filter" value="" />
-									<input type="button" value="apply" id="btnFilter"/> <input id="btnQuestion" type="button" value="?"><br>
+									<input type="button" value="Ngẫu nhiên" id="btnFilter"/> <input type="button" value="Bình thường" id="btnOrdinarily"/> <input id="btnQuestion" type="button" value="?"><br>
 								</div>
 								<div class="show">
 									<span>Cột hiển thị:</span>
@@ -64,6 +65,10 @@
 						<table id="data" class="create">
 						</table>
 					</div>
+					<div class="current CSSTableGenerator">
+						<table id="crData" class="create">
+						</table>
+					</div>
 				</div>
 				<input type="button" value="Báo cáo xấu"><br><br>
 			</div>
@@ -93,17 +98,48 @@
 			q.next(-1, true);	
 		});
 
-		// Button filter
+		// Button filter (random data)
 		$('#btnFilter').off('click').on('click', function(){
 			var filter = $('input[name="filter"]').val();
-			q.random(filter);	
+			q.random(filter);
+
+			// Display current data for tab
+				
+			var rows = q.getCurrentDataSet();
+			var table = $('table[id="crData"]');
+			table.html('');
+			var emptyHeader = ['STT'];
+			var tmpHeader = $.merge(emptyHeader, ptn.header);
+			createRow(table, tmpHeader, -1, true, false);
+			for (var i = 0; i < rows.length; i++) {
+				createRow(table, rows[i], i +1 , true, false,true);
+			}
+		});
+
+		// Button ordinarily
+		$('#btnOrdinarily').off('click').on('click', function(){
+			var filter = $('input[name="filter"]').val();
+			q.ordinarily(filter);
+
+			// Display current data for tab
+				
+			var rows = q.getCurrentDataSet();
+			var table = $('table[id="crData"]');
+			table.html('');
+			var emptyHeader = ['STT'];
+			var tmpHeader = $.merge(emptyHeader, ptn.header);
+			createRow(table, tmpHeader, -1, true, false);
+			for (var i = 0; i < rows.length; i++) {
+				createRow(table, rows[i], i +1 , true, false,true);
+			}
 		});
 
 		// Button question
 		$('#btnQuestion').off('click').on('click', function(){
-			alert('Chọn các phần tử muốn hiển thị.\n Ví dụ:\n \t\t1,2,3 --> chọn 1, 2, 3\n \t\t4-6 --> chọn từ 4 -> 6\n \t\tHoặc kết hợp cả 2: 1,2,3,4-6')
+			alert('Chọn các phần tử muốn hiển thị.\n Ví dụ:\n\t1,2,3 --> chọn 1, 2, 3\n\t4-6 --> chọn từ 4 -> 6\n\tHoặc kết hợp cả 2: 1,2,3,4-6')
 		});
 
+		// Display text when click on column name
 		$('.input ul').find('span').each(function(idx, el){
 			$(el).on('click', function(){
 				$(this).prev().val(q.getCurrentData(idx));
@@ -119,12 +155,12 @@
 		var tmpHeader = $.merge(emptyHeader, ptn.header);
 		createRow(table, tmpHeader, -1, true, false);
 		for (var i = 0; i < rows.length; i++) {
-			createRow(table, rows[i], i, true, false,true);
+			createRow(table, rows[i], i + 1, true, false,true);
 		}	
 		
 		// Change sub menu text
-		var text = ['Quiz', 'Xem tất cả'];
-		var items = ['.quiz','.all'];
+		var text = ['Quiz', 'Xem tất cả', 'Hiện tại'];
+		var items = ['.quiz','.all','.current'];
 		for(var i = 0; i< items.length; i++){
 			$(items[i]).addClass('hide');
 		}

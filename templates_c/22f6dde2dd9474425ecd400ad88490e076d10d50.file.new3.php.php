@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-11-06 10:30:10
+<?php /* Smarty version Smarty-3.1.19, created on 2014-11-13 08:28:01
          compiled from "views/new3.php" */ ?>
 <?php /*%%SmartyHeaderCode:327979575543b912905ebb5-87103196%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,13 +7,13 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     '22f6dde2dd9474425ecd400ad88490e076d10d50' => 
     array (
       0 => 'views/new3.php',
-      1 => 1415266208,
+      1 => 1415266268,
       2 => 'file',
     ),
     'bfb5bf6d529a1de2057e120d97a8626aa9ef7fad' => 
     array (
       0 => 'templates/main.tpl.php',
-      1 => 1414574948,
+      1 => 1415340764,
       2 => 'file',
     ),
     'e2d031adfce007f3e30b419472f88e1be179c8aa' => 
@@ -31,19 +31,26 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   'unifunc' => 'content_543b91290d1cc5_36401826',
   'has_nocache_code' => false,
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_543b91290d1cc5_36401826')) {function content_543b91290d1cc5_36401826($_smarty_tpl) {?><?php echo $_smarty_tpl->getSubTemplate ("header.tpl.php", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array('body_class'=>"index",'root'=>''), 0);?>
+<?php if ($_valid && !is_callable('content_543b91290d1cc5_36401826')) {function content_543b91290d1cc5_36401826($_smarty_tpl) {?><!DOCTYPE html>
+<html>
+	<?php echo $_smarty_tpl->getSubTemplate ("header.tpl.php", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array('body_class'=>"index",'root'=>''), 0);?>
 
-<?php echo $_smarty_tpl->getSubTemplate ("menu.tpl.php", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array('css_class'=>"alt reveal",'nav_class'=>"alt reveal",'param'=>''), 0);?>
+<body>
+	<div id="cloud-container">
+		<!-- Menu -->
+		<?php echo $_smarty_tpl->getSubTemplate ("menu.tpl.php", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array('css_class'=>"alt reveal",'nav_class'=>"alt reveal",'param'=>''), 0);?>
 
-<div class="frame">
-
+		
+		<!-- Content -->
+		<div class="main">
+			
 <div class="main">
 		<div class="wrap">
 			<div class="create-main">
 				<?php /*  Call merged included template "sub_nav.tpl.php" */
 $_tpl_stack[] = $_smarty_tpl;
  $_smarty_tpl = $_smarty_tpl->setupInlineSubTemplate("sub_nav.tpl.php", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array(), 0, '327979575543b912905ebb5-87103196');
-content_545b3fa27c58c1_15999245($_smarty_tpl);
+content_54645d8165d775_40864005($_smarty_tpl);
 $_smarty_tpl = array_pop($_tpl_stack); 
 /*  End of included template "sub_nav.tpl.php" */?>
 				<div class="content over-scroll">
@@ -84,17 +91,21 @@ $_smarty_tpl = array_pop($_tpl_stack);
 		});
 
 		// Change sub menu
-		changeSubNavNew(["Tạo mới bằng cách nhập bằng tay"],[''], 1);
+		changeSubNavNew(["Tạo mới - nhập bằng tay"],[''], 1);
 	});
 </script>
 
-</div>
-<?php echo $_smarty_tpl->getSubTemplate ("footer.tpl.php", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array('root'=>".."), 0);?>
+		</div>
+		
+		<!-- footer -->
+		<?php echo $_smarty_tpl->getSubTemplate ("footer.tpl.php", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array('root'=>".."), 0);?>
 
-<?php }} ?>
-<?php /* Smarty version Smarty-3.1.19, created on 2014-11-06 10:30:10
+	</div>
+</body>
+</html><?php }} ?>
+<?php /* Smarty version Smarty-3.1.19, created on 2014-11-13 08:28:01
          compiled from "./templates/sub_nav.tpl.php" */ ?>
-<?php if ($_valid && !is_callable('content_545b3fa27c58c1_15999245')) {function content_545b3fa27c58c1_15999245($_smarty_tpl) {?><div class="detail-nav">
+<?php if ($_valid && !is_callable('content_54645d8165d775_40864005')) {function content_54645d8165d775_40864005($_smarty_tpl) {?><div class="detail-nav">
 	<ul>
 		<li><a href="#" class="active">Flash card</a></li>
 		<li><a href="#">Learn</a></li>

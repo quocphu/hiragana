@@ -9,6 +9,7 @@
 <script type="text/javascript" src="{$root}/js/numeral.min.js"></script>
 <script type="text/javascript">
 	var gbAppId = {$appId};
+	var MAX_FILE_ROW_NUM = {$MAX_FILE_ROW_NUM};
 </script>
 <script type="text/javascript" src="{$root}/js/startup.js"></script>
 </head>

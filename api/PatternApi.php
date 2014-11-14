@@ -106,10 +106,9 @@ class PatternApi {
 			
 			// Set author information
 			$info = new Pattern();
-			$info->accountid = '1';
+			$info->accountid = $_SESSION[FB_UID];
 			$info->columnsize = $data['column_number'];
 			$info->title = $data['title'];
-			
 					
 			// Set column header data
 			$header = array();
@@ -132,8 +131,20 @@ class PatternApi {
 	}
 	
 	public function newPatternStep2($data) {
-		$size = $data['columnSize'];
+		$size = -1;
+		$valid = 0;
+		if(isset($data['columnSize'])) {
+			$size = $data['columnSize'];
+		}
+		
 		$rowNum = (count($data) - 3) / $size;
+		
+		if($rowNum < 0 || $rowNum > MAX_FILE_ROW_NUM) {
+			$result['valid'] = $valid;
+			$result['error'] = ['MAX_ROW_NUM'=>MSG_MAX_ROWNUM];
+			return $result;
+		}
+		
 		$error = array();
 		$detail = array();
 		$result = array();
@@ -178,7 +189,9 @@ class PatternApi {
 		$title = $data['title'];
 		$updateDate = $data['update_date'];
 		$columnSize = $data['column_size'];
-		if($id == '' || $updateDate == '' || $columnSize == '') {
+		if(strcmp($id, '') == 0
+				 || strcmp($updateDate, '') == 0
+				 || strcmp($columnSize, '') == 0) {
 			return ['valid' => 0, 'error'=>["invalid_data"]];
 		}
 		// Current data

@@ -30,7 +30,6 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			var ptn = $.parseJSON('{$data}');
-// 			console.log({$data});
 			var rows = ptn.data;
 			var table = $('table[id="data"]');
 			table.html('');
@@ -40,15 +39,12 @@
 			}
 
 			$('#btnReNew').off('click').on('click', function(){
-				location.href = '/detail/{$id}';
-			});	
-
-			$('#btnReNew').off('click').on('click', function(){
 				location.href = '/new/1';
 			});
-// 			$('#btnDetail').off('click').on('click',funtion(){
-// 				location.href = '/detail/{$id}';
-// 			});	
+			
+			$('#btnDetail').off('click').on('click',function(){
+				location.href = '/detail/{$id}';
+			});	
 		});
 	</script>
 	

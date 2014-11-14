@@ -40,7 +40,7 @@ html,body {
 	top: 0;
 	width: 100%;
 	z-index: 10000;
-	background: none repeat scroll 0 0 #1ABC9A;
+	background: none repeat scroll 0 0 #8D9997;
 }
 
 .header .logo a {
@@ -302,9 +302,9 @@ html,body {
 	height: 60px;
 	text-align: center;
 	width: 100%;
-	border-top: 2px solid #1ABC9A;
-	border-bottom: 2px solid #1ABC9A;
-	background: none repeat scroll 0 0 #1ABC9A;
+	border-top: 2px solid #8D9997;
+	border-bottom: 2px solid #8D9997;
+	background: none repeat scroll 0 0 #8D9997;
 	position: absolute;
 	bottom: 0;
 	left: 0;
@@ -581,7 +581,6 @@ input[type="button"] {
 	font-size: 2em;
 }
 
-
 .slideTextUp div:nth-child(2) {
 	top: 100%;
 }
@@ -609,7 +608,6 @@ input[type="button"] {
 .slideTextLeft:hover div {
 	transform: translateX(-100%);
 }
-
 
 @media screen and (min-width: 30em) {
 	.col1, .col2 {
@@ -667,7 +665,7 @@ input[type="button"] {
 	.col3 li:first{
 		margin-left: 0%;
 	}
-	.col3 li:nth-child(3), .col3  li:nth-child(5){
+	.col3 li:nth-child(3), .col3 li:nth-child(5){
 		margin-left: .5%;
 	}  
 	

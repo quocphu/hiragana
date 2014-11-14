@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-11-07 07:20:47
+<?php /* Smarty version Smarty-3.1.19, created on 2014-11-14 04:39:40
          compiled from "views/detail.php" */ ?>
 <?php /*%%SmartyHeaderCode:1644160865543b8b6cde39a9-51599534%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -7,7 +7,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'c7c8d58e292b68e63ed3a746e18cee0382762e78' => 
     array (
       0 => 'views/detail.php',
-      1 => 1415246255,
+      1 => 1415936374,
       2 => 'file',
     ),
     'bfb5bf6d529a1de2057e120d97a8626aa9ef7fad' => 
@@ -50,7 +50,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
 				<?php /*  Call merged included template "sub_nav.tpl.php" */
 $_tpl_stack[] = $_smarty_tpl;
  $_smarty_tpl = $_smarty_tpl->setupInlineSubTemplate("sub_nav.tpl.php", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array(), 0, '1644160865543b8b6cde39a9-51599534');
-content_545c64bfc5bb85_51508896($_smarty_tpl);
+content_5465797c137bb6_45920296($_smarty_tpl);
 $_smarty_tpl = array_pop($_tpl_stack); 
 /*  End of included template "sub_nav.tpl.php" */?>
 				<div class="content">
@@ -67,21 +67,22 @@ $_smarty_tpl = array_pop($_tpl_stack);
 							</div>
 							<div class="input">
 								<ul>
-									<li><input type="text" value="input 1" /><span>Column title 1</span></li>
-									<li ><input type="text" value="input 2" /><span>Column title 2</span></li>
-									<li ><input type="text" value="input 3" /><span>Column title 3</span></li>
-									<li ><input type="text" value="input 4" /><span>Column title 4</span></li>
-									<li ><input type="text" value="input 5" /><span>Column title 4</span></li>
+									<li><input type="text" value="input 1" /> <span>Column title 1</span></li>
+									<li ><input type="text" value="input 2" /> <span>Column title 2</span></li>
+									<li ><input type="text" value="input 3" /> <span>Column title 3</span></li>
+									<li ><input type="text" value="input 4" /> <span>Column title 4</span></li>
+									<li ><input type="text" value="input 5" /> <span>Column title 4</span></li>
 									
 								</ul>
 							</div>
+							<br>
 							<input type="button" value="Prev" id="btnPrev" />
 							<input type="button" value="Next" id="btnNext"/>
 							<span class="record">0/0</span>
 							<div class="setting">
 								<div class="show">
 									<span>Lọc:</span> <input type="text" name="filter" value="" />
-									<input type="button" value="apply" id="btnFilter"/> <input id="btnQuestion" type="button" value="?"><br>
+									<input type="button" value="Ngẫu nhiên" id="btnFilter"/> <input type="button" value="Bình thường" id="btnOrdinarily"/> <input id="btnQuestion" type="button" value="?"><br>
 								</div>
 								<div class="show">
 									<span>Cột hiển thị:</span>
@@ -111,6 +112,10 @@ $_smarty_tpl = array_pop($_tpl_stack);
 						</div>
 					<div class="all CSSTableGenerator">
 						<table id="data" class="create">
+						</table>
+					</div>
+					<div class="current CSSTableGenerator">
+						<table id="crData" class="create">
 						</table>
 					</div>
 				</div>
@@ -143,17 +148,48 @@ $_smarty_tpl = array_pop($_tpl_stack);
 			q.next(-1, true);	
 		});
 
-		// Button filter
+		// Button filter (random data)
 		$('#btnFilter').off('click').on('click', function(){
 			var filter = $('input[name="filter"]').val();
-			q.random(filter);	
+			q.random(filter);
+
+			// Display current data for tab
+				
+			var rows = q.getCurrentDataSet();
+			var table = $('table[id="crData"]');
+			table.html('');
+			var emptyHeader = ['STT'];
+			var tmpHeader = $.merge(emptyHeader, ptn.header);
+			createRow(table, tmpHeader, -1, true, false);
+			for (var i = 0; i < rows.length; i++) {
+				createRow(table, rows[i], i +1 , true, false,true);
+			}
+		});
+
+		// Button ordinarily
+		$('#btnOrdinarily').off('click').on('click', function(){
+			var filter = $('input[name="filter"]').val();
+			q.ordinarily(filter);
+
+			// Display current data for tab
+				
+			var rows = q.getCurrentDataSet();
+			var table = $('table[id="crData"]');
+			table.html('');
+			var emptyHeader = ['STT'];
+			var tmpHeader = $.merge(emptyHeader, ptn.header);
+			createRow(table, tmpHeader, -1, true, false);
+			for (var i = 0; i < rows.length; i++) {
+				createRow(table, rows[i], i +1 , true, false,true);
+			}
 		});
 
 		// Button question
 		$('#btnQuestion').off('click').on('click', function(){
-			alert('Chọn các phần tử muốn hiển thị.\n Ví dụ:\n \t\t1,2,3 --> chọn 1, 2, 3\n \t\t4-6 --> chọn từ 4 -> 6\n \t\tHoặc kết hợp cả 2: 1,2,3,4-6')
+			alert('Chọn các phần tử muốn hiển thị.\n Ví dụ:\n\t1,2,3 --> chọn 1, 2, 3\n\t4-6 --> chọn từ 4 -> 6\n\tHoặc kết hợp cả 2: 1,2,3,4-6')
 		});
 
+		// Display text when click on column name
 		$('.input ul').find('span').each(function(idx, el){
 			$(el).on('click', function(){
 				$(this).prev().val(q.getCurrentData(idx));
@@ -169,12 +205,12 @@ $_smarty_tpl = array_pop($_tpl_stack);
 		var tmpHeader = $.merge(emptyHeader, ptn.header);
 		createRow(table, tmpHeader, -1, true, false);
 		for (var i = 0; i < rows.length; i++) {
-			createRow(table, rows[i], i, true, false,true);
+			createRow(table, rows[i], i + 1, true, false,true);
 		}	
 		
 		// Change sub menu text
-		var text = ['Quiz', 'Xem tất cả'];
-		var items = ['.quiz','.all'];
+		var text = ['Quiz', 'Xem tất cả', 'Hiện tại'];
+		var items = ['.quiz','.all','.current'];
 		for(var i = 0; i< items.length; i++){
 			$(items[i]).addClass('hide');
 		}
@@ -231,9 +267,9 @@ $_smarty_tpl = array_pop($_tpl_stack);
 	</div>
 </body>
 </html><?php }} ?>
-<?php /* Smarty version Smarty-3.1.19, created on 2014-11-07 07:20:47
+<?php /* Smarty version Smarty-3.1.19, created on 2014-11-14 04:39:40
          compiled from "./templates/sub_nav.tpl.php" */ ?>
-<?php if ($_valid && !is_callable('content_545c64bfc5bb85_51508896')) {function content_545c64bfc5bb85_51508896($_smarty_tpl) {?><div class="detail-nav">
+<?php if ($_valid && !is_callable('content_5465797c137bb6_45920296')) {function content_5465797c137bb6_45920296($_smarty_tpl) {?><div class="detail-nav">
 	<ul>
 		<li><a href="#" class="active">Flash card</a></li>
 		<li><a href="#">Learn</a></li>

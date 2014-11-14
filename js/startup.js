@@ -398,7 +398,7 @@ function nextButton2() {
 // New row
 function addNewRow(table) {
 	var rowNum = table.find('tr').length;
-	if(rowNum >50){
+	if(rowNum > MAX_FILE_ROW_NUM){
 		return;
 	}
 	

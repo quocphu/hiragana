@@ -43,6 +43,8 @@
 		$data['appId']= FBID;
 		$data['logo']= UI_LOGO;
 		$data['uiTitle']= UI_TITLE;
+		$data['MAX_FILE_ROW_NUM']= MAX_FILE_ROW_NUM;
+
 		// Override render
 	    Flight::view()->assign($data);
 	    Flight::view()->display($template);
@@ -93,6 +95,7 @@
 		if(!isset($_SESSION[STEP1])) {
 			Flight::redirect('/new/1');
 		}
+		
 		Flight::render('./views/new2.php', array('title' => Common::getTitle("Bước 2 - Tạo bằng file"),'rowNum' => $_SESSION[STEP1]->info->columnsize));
 	});
 	
@@ -101,6 +104,7 @@
 		if(!isset($_SESSION[STEP1])) {
 			Flight::redirect('/new/1');
 		}
+		
 		$step1Data = $_SESSION[STEP1];
 		$json = json_encode($step1Data);
 		Flight::render('./views/new3.php', array('title' => Common::getTitle("Bước 2 - Tạo bằng tay"), 'data'=>$json, 'rowNum' => $_SESSION[STEP1]->info->columnsize));
@@ -119,6 +123,7 @@
 		$patternSrv = new PatternService($db);
 		$id = $patternSrv->insert($step1Data);
 		$_SESSION['PTN_ID'] = $id;
+		
 		Flight::redirect('/new/5');
 	});
 	
@@ -134,6 +139,7 @@
 		$patternSrv = new PatternService($db);
 		$pattern = $patternSrv->getById($id, true);
 		$ptnDto = Common::convertPattern($pattern);
+		
 		// Empty session
 		$_SESSION[STEP1] = null;
 
@@ -458,17 +464,36 @@
 		Flight::redirect('/error');
 	});
 	// Error Handling
-	Flight::map('error', function(Exception $ex){
-		// Handle error
+// 	Flight::map('error', function(Exception $ex){
+// 		// Handle error
 		
-		$error = array();
-		$error[] = SYSTEM_ERROR;
-		if(OUT_ERROR) {
-			$error[] = '<pre>'.$ex->getTraceAsString().'</pre>';
-		}
+// 		$error = array();
+// 		$error[] = SYSTEM_ERROR;
+// 		if(OUT_ERROR) {
+// 			$error[] = '<pre>'.$ex->getTraceAsString().'</pre>';
+// 		}
 		
-		$_SESSION[ERROR] = $error;
-		Flight::redirect('/error');
-	});
+// 		$_SESSION[ERROR] = $error;
+// 		Flight::redirect('/error');
+// 	});
+
+		Flight::route ('/create', function() {
+// 			echo 'create';
+// 			$db = DP::getInstant();
+// 			$patternDao= new PatternDao($db);
+// 			$ptn = new Pattern();
+// 			for($i = 0; $i< 10000000; $i++) {
+// 				$ptn->title = 'title ' . $i;
+				
+// 				$ptn->accountid = 1;
+// 				$ptn->columnsize = 2;
+// 				$ptn->tag = 'tag';
+// 				$patternDao->insert($ptn);
+// // 				echo $i .'<br>';
+// 			}
+			
+			
+		});
+		
 	Flight::start();
 ?>

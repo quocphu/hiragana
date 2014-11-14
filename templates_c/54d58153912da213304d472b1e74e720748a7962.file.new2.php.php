@@ -1,4 +1,4 @@
-<?php /* Smarty version Smarty-3.1.19, created on 2014-11-06 10:32:55
+<?php /* Smarty version Smarty-3.1.19, created on 2014-11-07 10:23:52
          compiled from "views/new2.php" */ ?>
 <?php /*%%SmartyHeaderCode:604867661543b902e49a284-59619713%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
@@ -13,7 +13,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
     'bfb5bf6d529a1de2057e120d97a8626aa9ef7fad' => 
     array (
       0 => 'templates/main.tpl.php',
-      1 => 1414574948,
+      1 => 1415340764,
       2 => 'file',
     ),
     'e2d031adfce007f3e30b419472f88e1be179c8aa' => 
@@ -31,19 +31,26 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   'unifunc' => 'content_543b902e5081d1_50773697',
   'has_nocache_code' => false,
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_543b902e5081d1_50773697')) {function content_543b902e5081d1_50773697($_smarty_tpl) {?><?php echo $_smarty_tpl->getSubTemplate ("header.tpl.php", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array('body_class'=>"index",'root'=>''), 0);?>
+<?php if ($_valid && !is_callable('content_543b902e5081d1_50773697')) {function content_543b902e5081d1_50773697($_smarty_tpl) {?><!DOCTYPE html>
+<html>
+	<?php echo $_smarty_tpl->getSubTemplate ("header.tpl.php", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array('body_class'=>"index",'root'=>''), 0);?>
 
-<?php echo $_smarty_tpl->getSubTemplate ("menu.tpl.php", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array('css_class'=>"alt reveal",'nav_class'=>"alt reveal",'param'=>''), 0);?>
+<body>
+	<div id="cloud-container">
+		<!-- Menu -->
+		<?php echo $_smarty_tpl->getSubTemplate ("menu.tpl.php", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array('css_class'=>"alt reveal",'nav_class'=>"alt reveal",'param'=>''), 0);?>
 
-<div class="frame">
-
+		
+		<!-- Content -->
+		<div class="main">
+			
 <div class="main">
 		<div class="wrap">
 			<div class="create-main">
 				<?php /*  Call merged included template "sub_nav.tpl.php" */
 $_tpl_stack[] = $_smarty_tpl;
  $_smarty_tpl = $_smarty_tpl->setupInlineSubTemplate("sub_nav.tpl.php", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array(), 0, '604867661543b902e49a284-59619713');
-content_545b4047cb1ca6_87108514($_smarty_tpl);
+content_545c8fa89261c6_98806358($_smarty_tpl);
 $_smarty_tpl = array_pop($_tpl_stack); 
 /*  End of included template "sub_nav.tpl.php" */?>
 				<div class="content">
@@ -81,13 +88,17 @@ $_smarty_tpl = array_pop($_tpl_stack);
 	});
 </script>
 
-</div>
-<?php echo $_smarty_tpl->getSubTemplate ("footer.tpl.php", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array('root'=>".."), 0);?>
+		</div>
+		
+		<!-- footer -->
+		<?php echo $_smarty_tpl->getSubTemplate ("footer.tpl.php", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, null, array('root'=>".."), 0);?>
 
-<?php }} ?>
-<?php /* Smarty version Smarty-3.1.19, created on 2014-11-06 10:32:55
+	</div>
+</body>
+</html><?php }} ?>
+<?php /* Smarty version Smarty-3.1.19, created on 2014-11-07 10:23:52
          compiled from "./templates/sub_nav.tpl.php" */ ?>
-<?php if ($_valid && !is_callable('content_545b4047cb1ca6_87108514')) {function content_545b4047cb1ca6_87108514($_smarty_tpl) {?><div class="detail-nav">
+<?php if ($_valid && !is_callable('content_545c8fa89261c6_98806358')) {function content_545c8fa89261c6_98806358($_smarty_tpl) {?><div class="detail-nav">
 	<ul>
 		<li><a href="#" class="active">Flash card</a></li>
 		<li><a href="#">Learn</a></li>

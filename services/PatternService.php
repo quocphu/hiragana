@@ -54,6 +54,12 @@ class PatternService {
 			foreach ( $pattern->header as $key => $column ) {
 				$tag .= $column->header . ' ';
 			}
+			
+			// Get account id
+			$accDao = new AccountDao($this->dp);
+			$acc = $accDao->getByFbId($pattern->info->accountid);
+			$pattern->info->accountid = $acc->id;
+			
 			// Insert pattern;
 			$pattern->info->tag = $tag;
 			$patternId = $this->patternDao->insert ( $pattern->info );
@@ -128,13 +134,13 @@ class PatternService {
 		$detailDel = [];
 		
 		// Compare title
-		if($ptn->info->title != $old->info->title){
+		if(strcmp($ptn->info->title, $old->info->title) != 0){
 			$isUpdPattern = true;
 		}
 		
 		// Compare header
 		for($i = 0; $i < $ptn->info->columnsize; $i++){
-			if($ptn->header[$i]->header != $old->header[$i]->header){
+			if(strcmp($ptn->header[$i]->header, $old->header[$i]->header) != 0){
 				$headerUpd[] = $i;
 				$isUpdHeader = true;
 			}
@@ -143,22 +149,24 @@ class PatternService {
 		// Compare data
 		if(count($ptn->data) > count($old->data)){
 			for($i = 0; $i < count($ptn->data); $i++) {
-				if($i > count($old->data)) {
+				if($i > count($old->data) - 1) {
 					$detailIns[] = $i;
+					$isUpdDetail = true;
 				} else {
-					if($ptn->data[$i]->value != $old->data[$i]->value) {
+					if(strcmp($ptn->data[$i]->value, $old->data[$i]->value) != 0){
 						$detailUpd[] = $i;
+						$isUpdDetail = true;
 					}
 				}
 			}
 			
 		} else {
 			for($i = 0; $i < count($old->data); $i++) {
-				if($i > count($ptn->data)) {
+				if($i > count($ptn->data) - 1) {
 					$detailDel[] =$i;
 					$isUpdDetail = true;
 				} else {
-					if($ptn->data[$i]->value != $old->data[$i]->value) {
+					if(strcmp($ptn->data[$i]->value, $old->data[$i]->value) != 0){
 						
 						$detailUpd[] = $i;
 						$isUpdDetail = true;

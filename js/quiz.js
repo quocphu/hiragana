@@ -54,7 +54,6 @@ Quiz =  function (data) {
 						$(el).next('span').addClass('error'); 
 						//el.focus();
 					}
-					console.log(crMark)
 				}
 			});
 		});
@@ -179,14 +178,52 @@ Quiz =  function (data) {
 	this.random = function (regx) {
 		resetGlobal();
 		
+		// Get select data index
 		var selectedIdxArr  = applyData(regx);
-		crIdxArr = random3(selectedIdxArr.length);
+		
+		// Create radom index array
+		var randomIdxArr = random3(selectedIdxArr.length);
+		
+		// Set value for current index array
+		crIdxArr = [];
+		for (var i = 0; i < selectedIdxArr.length; i++){
+			crIdxArr[i] = selectedIdxArr[randomIdxArr[i]];
+		}
+		
 		$('.detail-show li').each(function(idx, el){
 			$(el).html(data.data[crIdxArr[crIdx]][idx]);
 		});
 		$('.record').html(crIdx + ' / ' + crIdxArr.length);
 	}
-	
+	// Get ordinarily data
+	this.ordinarily = function (regx) {
+		resetGlobal();
+		
+		// Get select data index
+		var selectedIdxArr  = applyData(regx);
+		
+		// Create radom index array
+//		var randomIdxArr = random3(selectedIdxArr.length);
+		
+		// Set value for current index array
+		crIdxArr = [];
+		for (var i = 0; i < selectedIdxArr.length; i++){
+			crIdxArr[i] = selectedIdxArr[i];
+		}
+		
+		$('.detail-show li').each(function(idx, el){
+			$(el).html(data.data[crIdxArr[crIdx]][idx]);
+		});
+		$('.record').html(crIdx + ' / ' + crIdxArr.length);
+	}
+	// Get current data
+	this.getCurrentDataSet = function(){
+		var rs = Array();
+		for(var i = 0; i < crIdxArr.length; i++){
+			rs[i] = data.data[crIdxArr[i]];
+		}
+		return rs;
+	}
 	
 	this.next =  function(step, resetMark){
 		next(step, resetMark);
@@ -226,6 +263,8 @@ Quiz =  function (data) {
 	}
 	
 	// Get data from regx
+	// Proccess regx to split index of data
+	// 1,3,5-7: --> 0,2,4,5,6
 	function applyData(regx){
 		regx = regx.trim();
 		var arr = regx.split(',');
@@ -236,16 +275,16 @@ Quiz =  function (data) {
 			for(var i = 0; i < arr.length; i++) {
 				if(isNumber(arr[i])) {
 					var tempI = parseInt(arr[i]);
-					if(tempI < data.data.length & tempI >= 0){
-						rs[j] = tempI;
+					if(tempI < data.data.length & tempI > 0){
+						rs[j] = tempI - 1;
 						j++;
 					}
 				} else {
 					var tmp = arr[i].trim().split('-');
 					if(tmp.length > 1 && isNumber(tmp[0]) && isNumber(tmp[1])){
 						for (var k = parseInt(tmp[0]); k <= parseInt(tmp[1]); k++) {
-							if(k < data.data.length & k >= 0){
-								rs[j] = k;
+							if(k < data.data.length & k > 0){
+								rs[j] = k - 1;
 								j++;
 							}
 						}
@@ -265,6 +304,7 @@ Quiz =  function (data) {
 	function isNumber(n) {
 	  return !isNaN(parseFloat(n)) && isFinite(n);
 	}
+	
 	function resetGlobal(){
 		crIdx = 0;
 		crMark = 0;
